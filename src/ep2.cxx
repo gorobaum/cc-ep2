@@ -1,12 +1,14 @@
 #include <cstdio>
 #include <cstring>
 #include "ep2.h"
+#include "graph.h"
 
 namespace ep2 {
  
 bool init (int argc, char** argv) {
   FILE *pFileIn;
-  //Grafo grafo;
+  Graph graph;
+  AdjMatrix teste;
   
   if (argc < 2) {
     printf("você precisa passar o nome de um arquivo como entrada do programa.1\n");   
@@ -28,7 +30,8 @@ bool init (int argc, char** argv) {
     return false;
   }
 
-  //grafo(pFilein);
+  teste[0][0] = 1;
+  graph(teste);
   
   return true;
 }  
