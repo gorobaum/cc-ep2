@@ -2,8 +2,4 @@
 
 namespace ep2 {
 
-class Node {
-
-}
-
 }

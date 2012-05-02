@@ -7,8 +7,7 @@ namespace ep2 {
  
 bool init (int argc, char** argv) {
   FILE *pFileIn;
-  Graph graph;
-  AdjMatrix teste;
+  Graph::AdjMatrix teste;
   
   if (argc < 2) {
     printf("você precisa passar o nome de um arquivo como entrada do programa.1\n");   
@@ -31,7 +30,7 @@ bool init (int argc, char** argv) {
   }
 
   teste[0][0] = 1;
-  graph(teste);
+  Graph graph(teste);
   
   return true;
 }  

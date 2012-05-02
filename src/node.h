@@ -1,4 +1,7 @@
+#ifndef EP2_NODE_H_
+#define EP2_NODE_H_
 
+#include <vector>
 
 namespace ep2 {
 
@@ -12,5 +15,7 @@ class Node {
 
   private:
     AdjList adjlist_;
+};
 }
-}
+
+#endif
