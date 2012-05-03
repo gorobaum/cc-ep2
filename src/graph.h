@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "node.h"
+#include "path.h"
 
 namespace ep2 {
 
@@ -16,7 +17,6 @@ class Graph {
   private:
     typedef std::vector< Node >   NodeList;
     NodeList                      nodelist_;
-    
 };
 
 }
