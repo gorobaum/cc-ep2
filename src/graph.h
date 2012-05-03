@@ -9,7 +9,7 @@ namespace ep2 {
 class Graph {
   public:
 
-    typedef std::vector< Node::AdjList >  AdjMatrix;
+    typedef std::vector<Node::AdjList>  AdjMatrix;
 
     explicit Graph (AdjMatrix adjmatrix); 
 
