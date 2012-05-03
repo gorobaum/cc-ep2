@@ -4,25 +4,34 @@
 namespace ep2 {
 
 using std::string;
-using std::bitset;
 
-std::bitset<2> Log::mode_;
+unsigned Log::flags_;
 
 Log& Log::print (const string& text) {
   fputs(text.c_str(), output_);
+  fputc(10, output_);
+  fflush(output_);
   return *this;
 }
 
 Log& Log::debug (const string& text) {
-  return mode_[debug_flag()]
+  return (flags_ & debug_flag())
     ? print("[DEBUG] " + text)
     : *this;
 }
 
 Log& Log::warning (const string& text) {
-  return mode_[warning_flag()]
+  return (flags_ & warning_flag())
     ? print("[WARNING] " + text)
     : *this;
+}
+
+void Log::set_debug () {
+  flags_ |= debug_flag();
+}
+
+void Log::set_warning () {
+  flags_ |= warning_flag();
 }
 
 } // namespace ep2
