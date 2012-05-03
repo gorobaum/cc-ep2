@@ -14,6 +14,7 @@ class Thread {
     Thread (Routine routine) : routine_(routine) {}
     void  run (void *arg);
     void* join ();
+    static long number_of_processors ();
   private:
     Routine   routine_;
     pthread_t thread_;

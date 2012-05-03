@@ -1,6 +1,8 @@
 
 #include <cstdio>
 
+#include <unistd.h>
+
 #include "thread.h"
 
 namespace ep2 {
@@ -18,6 +20,10 @@ void* Thread::join () {
   if (pthread_join(thread_, &ret))
     puts("Something bad happed.");
   return ret;
+}
+
+long Thread::number_of_processors () {
+  return sysconf(_SC_NPROCESSORS_ONLN);
 }
 
 }
