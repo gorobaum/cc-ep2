@@ -1,9 +1,12 @@
+
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
 #include "ep2.h"
 #include "graph.h"
 #include <string>
+#include "log.h"
 
 namespace ep2 {
 
@@ -43,7 +46,8 @@ bool init (int argc, char** argv) {
     return false;
   }
   if (strcmp(argv[1], "-debug") == 0) {
-    printf("Modo debug ativado.\n");
+    Log::set_debug();
+    Log().debug("Modo debug ativado.");
     argc--;
     if (argv[2] == NULL) {
       printf("Voce precisa passar o nome de um arquivo como entrada do programa.\n");
