@@ -8,9 +8,7 @@
 
 namespace ep2 {
 
-bool init_threads () {
-  return false;
-}
+unsigned Thread::next_id_ = 0;
 
 void Thread::run (void *arg) {
   if (!running_) {
@@ -28,6 +26,10 @@ void* Thread::join () {
   if (pthread_join(thread_, &ret))
     Log().warning("Something bad happed.");
   return ret;
+}
+
+unsigned id () {
+  return id_;
 }
 
 long Thread::number_of_processors () {
