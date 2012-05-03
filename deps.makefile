@@ -5,6 +5,7 @@
  src/log.h
 .temp/thread.o: src/thread.cxx src/thread.h src/log.h
 .temp/main.o: src/main.cxx src/ep2.h src/thread.h
+.temp/barrier.o: src/barrier.cxx src/barrier.h src/thread.h src/log.h
 .temp/graph.o: src/graph.cxx src/graph.h src/node.h src/path.h
 .temp/path.o: src/path.cxx src/path.h
 .temp/log.o: src/log.cxx src/log.h

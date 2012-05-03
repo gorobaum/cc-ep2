@@ -28,7 +28,7 @@ void* Thread::join () {
   return ret;
 }
 
-unsigned id () {
+unsigned Thread::id () {
   return id_;
 }
 

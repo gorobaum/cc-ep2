@@ -6,8 +6,6 @@
 
 namespace ep2 {
 
-bool init_threads ();
-
 class Thread {
   public:
     typedef void* (*Routine) (void*);

@@ -7,7 +7,5 @@
 int main(int argc, char** argv) {
   if (!ep2::init(argc, argv)) 
     printf("KEDE O GRAFO? KEDE\n");
-  if (!ep2::init_threads()) 
-    printf("KEDE AS THREADS? KEDE\n");
   return 0;
 }

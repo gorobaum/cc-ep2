@@ -1,4 +1,6 @@
+
 #include "barrier.h"
+#include "log.h"
 
 #define SKIP {}
 
