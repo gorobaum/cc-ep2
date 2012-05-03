@@ -8,7 +8,7 @@ namespace ep2 {
 class Node {
   public:
     
-    typedef std::vector< int > AdjList;
+    typedef std::vector<int> AdjList;
 
     explicit Node (AdjList adjlist):
       adjlist_(adjlist) {}
