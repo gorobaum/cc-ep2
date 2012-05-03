@@ -1,1 +1,1 @@
-FLAGS = -lpthread -D_POSIX_C_SOURCE=199309L
+FLAGS = -lpthread
