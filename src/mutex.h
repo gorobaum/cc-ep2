@@ -22,6 +22,8 @@ class Mutex {
   private:
     friend class Lock;
     pthread_mutex_t mutex_;
+    Mutex (const Mutex&);
+    Mutex& operator = (const Mutex&);
 };
 
 } // namespace ep2
