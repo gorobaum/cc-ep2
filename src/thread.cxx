@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "thread.h"
+#include "log.h"
 
 namespace ep2 {
 
@@ -20,11 +21,12 @@ void Thread::run (void *arg) {
 
 void* Thread::join () {
   if (!running_) {
-    puts("Attempt to join inactive thread.");
+    Log().warning("Attempt to join inactive thread.");
+    return NULL;
   }
   void *ret = NULL;
   if (pthread_join(thread_, &ret))
-    puts("Something bad happed.");
+    Log().warning("Something bad happed.");
   return ret;
 }
 
