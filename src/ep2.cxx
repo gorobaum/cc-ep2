@@ -2,10 +2,10 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <string>
 
 #include "ep2.h"
 #include "graph.h"
-#include <string>
 #include "log.h"
 
 namespace ep2 {
