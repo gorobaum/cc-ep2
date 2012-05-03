@@ -4,3 +4,4 @@
 .temp/thread.o: src/thread.cxx src/thread.h
 .temp/main.o: src/main.cxx src/ep2.h src/thread.h
 .temp/graph.o: src/graph.cxx src/graph.h src/node.h
+.temp/log.o: src/log.cxx src/log.h

@@ -4,3 +4,4 @@ OBJS = \
     .temp/thread.o \
     .temp/main.o \
     .temp/graph.o \
+    .temp/log.o \
