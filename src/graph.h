@@ -17,8 +17,11 @@ class Graph {
     explicit Graph (AdjMatrix adjmatrix); 
 
   private:
-    std::vector< Node >           nodelist_;
-    std::queue< Path >    	  pathqueue_;
+    std::vector< Node >	nodelist_;
+    std::queue< Path >	pathqueue_;
+    std::queue< Path >  resultpaths_;
+
+    void DijkstraConc (int path_num);
 };
 
 }

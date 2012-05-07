@@ -2,7 +2,7 @@
 
 namespace ep2 {
 
-Graph::DijkstraConc (int path_num) {
+void Graph::DijkstraConc (int path_num) {
 
 }
 
