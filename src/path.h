@@ -3,7 +3,7 @@
 
 #include <vector>
 
-namespace ep1 {
+namespace ep2 {
 
 class Path {
   public:

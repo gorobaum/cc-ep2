@@ -2,7 +2,7 @@
 
 #include "path.h"
 
-namespace ep1 {
+namespace ep2 {
 
 void Path::add_vertex (int vertex) {
   path_.push_back(vertex);
