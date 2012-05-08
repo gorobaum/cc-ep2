@@ -10,11 +10,12 @@ class Node {
     
     typedef std::vector<int> AdjList;
 
-    explicit Node (AdjList adjlist):
-      adjlist_(adjlist) {}
+    explicit Node (int id, AdjList adjlist):
+      id_(id), adjlist_(adjlist) {}
 
   private:
-    AdjList adjlist_;
+    unsigned  id_;
+    AdjList   adjlist_;
 };
 }
 

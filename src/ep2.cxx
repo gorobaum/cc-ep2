@@ -23,7 +23,7 @@ Graph::AdjMatrix make_matrix_from_file(FILE *pFileIn) {
     if (c != ' ') {
       if (c != '\n') {
         adjmatrix[i].push_back(c-'0');
-        printf("M[%d] = %d\n", i, adjmatrix[i].back());
+        //printf("M[%d] = %d\n", i, adjmatrix[i].back());
       }
       else {
         i++;
