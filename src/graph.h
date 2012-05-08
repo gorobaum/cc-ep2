@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <queue>
-#include "node.h"
 #include "path.h"
 #include "thread.h"
 #include "barrier.h"
@@ -13,11 +12,14 @@ namespace ep2 {
 class Graph {
   public:
 
-    typedef std::vector<Node::AdjList>  AdjMatrix;
-    explicit Graph (AdjMatrix adjmatrix); 
+    typedef std::vector< std::vector< bool > >  AdjMatrix;
+    explicit Graph (size_t n) :
+      adj_matrix_(n, std::vector<bool>(n, false)) {}
+    void AddEdge (size_t i, size_t j);
+    void Dump () const;
 
   private:
-    std::vector< Node >	nodelist_;
+    AdjMatrix adj_matrix_;
 };
 
 }

@@ -4,36 +4,49 @@
 #include <cstring>
 #include <string>
 
+#include <vector>
+
 #include "ep2.h"
 #include "graph.h"
 #include "log.h"
 
 namespace ep2 {
 
-Graph::AdjMatrix make_matrix_from_file(FILE *pFileIn) {
+using std::vector;
+
+static void insert_line (Graph *graph, const vector<bool>& line, size_t i) {
+  for (vector<bool>::const_iterator it = line.begin(); it != line.end(); ++it)
+    if (*it) graph->AddEdge(i, it-line.begin());
+}
+
+Graph* make_matrix_from_file(FILE *pFileIn) {
  
-  int i;
+  size_t i;
   char c;
-  Graph::AdjMatrix adjmatrix;
+  Graph *graph = NULL;
+  vector<bool> line;
 
   i = 0;
   c = fgetc(pFileIn);
-  adjmatrix.push_back(Node::AdjList());
   while (c != EOF) {
     if (c != ' ') {
       if (c != '\n') {
-        adjmatrix[i].push_back(c-'0');
+        line.push_back(!!(c-'0'));
         //printf("M[%d] = %d\n", i, adjmatrix[i].back());
       }
       else {
+        if (!graph) {
+          graph = new Graph(line.size());
+        }
+        insert_line(graph, line, i);
+        line.clear();
         i++;
-        adjmatrix.push_back(Node::AdjList());
       }
     }
     c = fgetc(pFileIn);
   }
    
-  return adjmatrix;
+  return graph;
 }
 
 bool init (int argc, char** argv) {
@@ -64,8 +77,9 @@ bool init (int argc, char** argv) {
     return false;
   }
 
-  teste = make_matrix_from_file(pFileIn);
-  Graph graph(teste);
+  Graph *graph = make_matrix_from_file(pFileIn);
+  graph->Dump();
+  delete graph;
   
   return true;
 }  

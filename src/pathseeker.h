@@ -5,6 +5,7 @@
 #include "graph.h"
 #include "path.h"
 #include "thread.h"
+#include "mutex.h"
 
 namespace ep2 {
 
@@ -19,6 +20,9 @@ class PathSeeker {
     void ShowPaths () const;
 
   private:
+    struct NodeInfo {
+      
+    };
     Graph *graph_;
     Mutex mutex_;
 };
