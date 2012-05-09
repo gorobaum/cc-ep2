@@ -9,6 +9,7 @@
 #include "ep2.h"
 #include "thread.h"
 #include "graph.h"
+#include "pathseeker.h"
 #include "log.h"
 
 
@@ -16,12 +17,14 @@ namespace ep2 {
 
 using std::vector;
 
+Graph *graph = NULL;
+
 static void insert_line (Graph *graph, const vector<bool>& line, size_t i) {
   for (vector<bool>::const_iterator it = line.begin(); it != line.end(); ++it)
     if (*it) graph->AddEdge(i, it-line.begin());
 }
 
-Graph* make_matrix_from_file(FILE *pFileIn) {
+static Graph* make_matrix_from_file(FILE *pFileIn) {
  
   size_t i;
   char c;
@@ -54,7 +57,6 @@ Graph* make_matrix_from_file(FILE *pFileIn) {
 bool init (int argc, char** argv) {
   FILE *pFileIn;
   size_t num_min_paths;
-  Graph::AdjMatrix teste;
   
   if (argc < 2) {
     printf("Voce precisa passar o numero de caminhos minimos.\n");   
@@ -79,18 +81,20 @@ bool init (int argc, char** argv) {
     return false;
   }
 
-  Graph *graph = make_matrix_from_file(pFileIn);
+  graph = make_matrix_from_file(pFileIn);
   //graph->Dump();
-  delete graph;
   
   return true;
 }  
 
 void run () {
-
+  PathSeeker seeker(graph);
+  seeker.seek();
+  seeker.show_paths();
 }
 
 void exit () {
+  delete graph;
   Thread::exit();
 }
 
