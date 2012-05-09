@@ -7,4 +7,4 @@ OBJS = \
     .temp/graph.o \
     .temp/path.o \
     .temp/log.o \
-		.temp/pathseeker.o \
+    .temp/pathseeker.o \
