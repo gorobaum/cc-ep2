@@ -16,8 +16,8 @@ class PathSeeker {
     explicit PathSeeker (Graph *graph) :
       graph_(graph) {}
 
-    void Dijkstra ();
-    void ShowPaths () const;
+    void seek ();
+    void show_paths () const;
 
   private:
     struct NodeInfo {

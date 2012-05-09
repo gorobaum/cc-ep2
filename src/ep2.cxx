@@ -94,5 +94,5 @@ void exit () {
   Thread::exit();
 }
 
-}
+} // namespace ep2
 

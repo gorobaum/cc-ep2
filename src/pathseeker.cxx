@@ -5,11 +5,11 @@
 
 namespace ep2 {
 
-void PathSeeker::Dijkstra () {
+void PathSeeker::seek () {
 
 }
 
-void PathSeeker::ShowPaths () const {
+void PathSeeker::show_paths () const {
 
 }
 
