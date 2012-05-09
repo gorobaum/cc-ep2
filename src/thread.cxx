@@ -36,4 +36,8 @@ long Thread::number_of_processors () {
   return sysconf(_SC_NPROCESSORS_ONLN);
 }
 
+void Thread::exit () {
+  pthread_exit(NULL);
+}
+
 }

@@ -7,8 +7,10 @@
 #include <vector>
 
 #include "ep2.h"
+#include "thread.h"
 #include "graph.h"
 #include "log.h"
+
 
 namespace ep2 {
 
@@ -78,11 +80,19 @@ bool init (int argc, char** argv) {
   }
 
   Graph *graph = make_matrix_from_file(pFileIn);
-  graph->Dump();
+  //graph->Dump();
   delete graph;
   
   return true;
 }  
+
+void run () {
+
+}
+
+void exit () {
+  Thread::exit();
+}
 
 }
 

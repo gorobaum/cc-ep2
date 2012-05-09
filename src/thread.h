@@ -9,6 +9,7 @@ namespace ep2 {
 class Thread {
   public:
     typedef void* (*Routine) (void*);
+    // TODO: Make thread pool.
     Thread (Routine routine) : 
       running_(false), routine_(routine),
       id_(next_id_++) {}
@@ -16,6 +17,7 @@ class Thread {
     void* join ();
     unsigned id ();
     static long number_of_processors ();
+    static void exit();
   private:
     bool      running_;
     Routine   routine_;
