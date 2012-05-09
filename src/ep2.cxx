@@ -63,29 +63,29 @@ static Graph* make_matrix_from_file(FILE *pFileIn) {
 }
 
 bool init (int argc, char** argv) {
-  FILE *pFileIn;
-  size_t num_min_paths;
+  size_t      num_min_paths;
   
+  string      progname(argv[0]);
+  argc--, argv++;
   if (argc < 2) {
-    show_usage(argv[0]);
+    show_usage(progname);
     return false;
   }
-  if (strcmp(argv[1], "-debug") == 0) {
+  if (strcmp(*argv, "-debug") == 0) {
     Log::set_debug();
     Log().debug("Debug mode activated.");
-    argc--;
-    if (argv[2] == NULL) {
-      printf("Voce precisa passar o nome de um arquivo como entrada do programa.\n");
+    argc--, argv++;
+    if (argc < 2) {
+      show_usage(progname);
       return false;
     }
-    strcpy(argv[1], argv[2]);
-    strcpy(argv[2], argv[3]);
   }
-  num_min_paths = atoi(argv[1]);
+  num_min_paths = atoi(*argv);
+  argc--, argv++;
 
-  pFileIn = fopen(argv[2], "r");
+  FILE *pFileIn = fopen(*argv, "r");
   if (pFileIn == NULL) {
-    printf("Voce precisa passar o nome de um arquivo como entrada do programa.\n");
+    Log().print("Could not open file '" + string(*argv) + "'.");
     return false;
   }
 
