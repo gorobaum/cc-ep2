@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <string>
-
 #include <vector>
 
 #include "ep2.h"
@@ -16,8 +15,17 @@
 namespace ep2 {
 
 using std::vector;
+using std::string;
 
 Graph *graph = NULL;
+
+static void show_usage (const string& progname) {
+  Log()
+    .print("Usage:")
+    .print("\t" + progname + " [-debug] [-warning] <n> <input_file>")
+    .print("Where <n> is the number of minimum paths desired and <input_file>")
+    .print("is the path to the file describing the graph.");
+}
 
 static void insert_line (Graph *graph, const vector<bool>& line, size_t i) {
   for (vector<bool>::const_iterator it = line.begin(); it != line.end(); ++it)
@@ -59,12 +67,12 @@ bool init (int argc, char** argv) {
   size_t num_min_paths;
   
   if (argc < 2) {
-    printf("Voce precisa passar o numero de caminhos minimos.\n");   
+    show_usage(argv[0]);
     return false;
   }
   if (strcmp(argv[1], "-debug") == 0) {
     Log::set_debug();
-    Log().debug("Modo debug ativado.");
+    Log().debug("Debug mode activated.");
     argc--;
     if (argv[2] == NULL) {
       printf("Voce precisa passar o nome de um arquivo como entrada do programa.\n");
