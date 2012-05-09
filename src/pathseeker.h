@@ -21,7 +21,9 @@ class PathSeeker {
 
   private:
     struct NodeInfo {
-      
+      size_t  minpaths;
+      Mutex   mutex;
+      NodeInfo () : minpaths(0) {}
     };
     Graph *graph_;
     Mutex mutex_;

@@ -9,15 +9,17 @@
 
 namespace ep2 {
 
+typedef size_t node;
+
 class Graph {
   public:
-
     typedef std::vector< std::vector< bool > >  AdjMatrix;
     explicit Graph (size_t n) :
       adj_matrix_(n, std::vector<bool>(n, false)) {}
-    void AddEdge (size_t i, size_t j);
+    size_t n () { return adj_matrix_.size(); }
+    void AddEdge (node i, node j);
+    bool IsEdge (node i, node j) const;
     void Dump () const;
-
   private:
     AdjMatrix adj_matrix_;
 };

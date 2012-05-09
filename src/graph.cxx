@@ -8,8 +8,12 @@ namespace ep2 {
 
 using std::vector;
 
-void Graph::AddEdge (size_t i, size_t j) {
+void Graph::AddEdge (node i, node j) {
   adj_matrix_[i][j] = true;
+}
+
+bool Graph::IsEdge (node i, node j) const {
+  return adj_matrix_[i][j];
 }
 
 void Graph::Dump () const {
