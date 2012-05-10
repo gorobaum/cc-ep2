@@ -35,9 +35,9 @@ void SimplePathSeeker::seek () {
 
 void SimplePathSeeker::show_paths () const {
   vector<NodeInfo>::const_iterator it;
-  for (it = nodeinfo_.begin(); it < nodeinfo_.end(); it++) {
+  for (it = nodeinfo_.begin()+1; it < nodeinfo_.end(); it++) {
     PathList::const_iterator jt;
-    printf("Para o vertice %d:\n", (it - nodeinfo_.begin()));
+    Log().print("Para o vertice "+ep2::itos(it - nodeinfo_.begin())+":");
     for (jt = it->pathlist.begin(); jt != it->pathlist.end(); jt++) {
       jt->dump();
     }

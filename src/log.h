@@ -8,6 +8,8 @@
 
 namespace ep2 {
 
+std::string itos (int i);
+
 class Log {
   public:
     explicit Log (FILE *output = stdout) : output_(output) {}

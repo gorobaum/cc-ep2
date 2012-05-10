@@ -7,6 +7,12 @@ using std::string;
 
 unsigned Log::flags_;
 
+string itos (int i) {
+  static char buffer[32];
+  sprintf(buffer, "%d", i);
+  return buffer;
+}
+
 Log& Log::print (const string& text) {
   fputs(text.c_str(), output_);
   fputc(10, output_);
