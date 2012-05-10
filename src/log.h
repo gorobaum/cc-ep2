@@ -9,6 +9,7 @@
 namespace ep2 {
 
 std::string itos (int i);
+std::string utos (unsigned i);
 
 class Log {
   public:

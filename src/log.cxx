@@ -13,6 +13,12 @@ string itos (int i) {
   return buffer;
 }
 
+string utos (unsigned i) {
+  static char buffer[32];
+  sprintf(buffer, "%u", i);
+  return buffer;
+}
+
 Log& Log::print (const string& text) {
   fputs(text.c_str(), output_);
   fputc(10, output_);
