@@ -65,24 +65,24 @@ static Graph* make_matrix_from_file(FILE *pFileIn) {
 }
 
 bool init (int argc, char** argv) {
-  string      progname(argv[0]);
+  string progname(argv[0]);
   argc--, argv++;
+  while (argc && *argv[0] == '-') {
+    if (strcmp(*argv, "-debug") == 0) {
+      Log::set_debug();
+      Log().debug("Debug mode activated.");
+    } else if (strcmp(*argv, "-warning") == 0) {
+      Log::set_warning();
+      Log().debug("Warning mode activated.");
+    }
+    argc--; argv++;
+  }
   if (argc < 2) {
     show_usage(progname);
     return false;
   }
-  if (strcmp(*argv, "-debug") == 0) {
-    Log::set_debug();
-    Log().debug("Debug mode activated.");
-    argc--, argv++;
-    if (argc < 2) {
-      show_usage(progname);
-      return false;
-    }
-  }
   num_min_paths = atoi(*argv);
   argc--, argv++;
-
   FILE *pFileIn = fopen(*argv, "r");
   if (pFileIn == NULL) {
     Log().print("Could not open file '" + string(*argv) + "'.");
@@ -93,7 +93,7 @@ bool init (int argc, char** argv) {
   //graph->Dump();
   
   return true;
-}  
+}
 
 void run () {
   PathSeeker *seeker = new SimplePathSeeker(graph, num_min_paths);
