@@ -21,7 +21,8 @@ class Path {
     bool search_for_vertex (node vertex);
     bool valid () const;
     node last () const { return path_.back(); } 
-
+    bool operator< (const Path& rhs) {
+      return path_.size() < rhs.path_.size(); }
   private:
     VertexPath  path_;
 };
