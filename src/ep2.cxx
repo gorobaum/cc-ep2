@@ -17,7 +17,8 @@ namespace ep2 {
 using std::vector;
 using std::string;
 
-Graph *graph = NULL;
+static Graph   *graph = NULL;
+static size_t  num_min_paths;
 
 static void show_usage (const string& progname) {
   Log()
@@ -29,7 +30,7 @@ static void show_usage (const string& progname) {
 
 static void insert_line (Graph *graph, const vector<bool>& line, size_t i) {
   for (vector<bool>::const_iterator it = line.begin(); it != line.end(); ++it)
-    if (*it) graph->AddEdge(i, it-line.begin());
+    if (*it) graph->add_edge(i, it-line.begin());
 }
 
 static Graph* make_matrix_from_file(FILE *pFileIn) {
@@ -63,8 +64,6 @@ static Graph* make_matrix_from_file(FILE *pFileIn) {
 }
 
 bool init (int argc, char** argv) {
-  size_t      num_min_paths;
-  
   string      progname(argv[0]);
   argc--, argv++;
   if (argc < 2) {
@@ -96,7 +95,7 @@ bool init (int argc, char** argv) {
 }  
 
 void run () {
-  PathSeeker seeker(graph);
+  PathSeeker seeker(graph, num_min_paths);
   seeker.seek();
   seeker.show_paths();
 }
