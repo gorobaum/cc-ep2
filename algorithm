@@ -1,0 +1,55 @@
+
+nodeinfo list[1:n]
+path buffer[1:t]
+queue Q
+
+for (q in node(0).adj())
+  Q.push_back(path(0), q)
+
+process [id=1 to t] {
+  while (!Q.empty()) {                      ## O(kn/t)
+    <p,node = Q.pop_front()>                ## O(t) * O(kn/t)         = O(kn)
+    if (!p.has(node)) {                     ## O(1) * O(kn/t)         = O(kn/t)
+        <buffer.insert(p, node)>            ## O(t²log(t)) * O(kn/t)  = O(kn.tlog(t))
+    }
+    barrier(id)
+    <
+    p,node = buffer.pop_front()             ## O(t) * O(kn/t)         = O(kn)
+    if (p) {                                ## O(1) * O(kn/t)         = O(kn/t)
+        list[node].add(p+node)              ## O(t) * O(kn/t)         = O(kn)
+        for (q in node.adj())               ## O(tn) * O(kn/t)        = O(kn²)
+          if (q != p.last and q.paths < k)  ## O(tn) * O(kn/t)        = O(kn²)
+            Q.push_back(p+node, q)          ## O(kn)                  = O(kn)
+    }
+    >
+    barrier(id)
+  }
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+nodeinfo list[1:n]
+
+process [id = 1 to t] (path first) {
+  local queue Q
+  Q.push_back({0}, first)
+  while (!Q.empty()) {                      O(?)
+    p,node = Q.pop_front()
+    if (!p.has(node)) {
+      if (list[node].max() > p.len+1)
+        bool success = false
+        <
+          if (list[node].max() > p.len+1) {
+            list[node].add(p+node)
+            success = true
+          }
+        >
+      if (success)
+        for (q in node.adj())
+          if (q != p.last)
+            Q.push_back(p+node, q)
+    }
+    barrier(id)
+  }
+}
+
