@@ -12,7 +12,7 @@ void Path::dump () const {
   Path::VertexPath::const_iterator it;
 
   for (it = path_.begin(); it < path_.end(); it++)
-    printf("%d-", (*it));
+    printf("%u-", (*it));
   printf("\n");
 }
 
