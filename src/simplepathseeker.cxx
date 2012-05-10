@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <string>
 
-#include "pathseeker.h"
+#include "simplepathseeker.h"
 #include "log.h"
 
 namespace ep2 {
@@ -10,7 +10,7 @@ namespace ep2 {
 using std::vector;
 using std::string;
 
-void PathSeeker::seek () {
+void SimplePathSeeker::seek () {
   PathQueue pathqueue;
   for (node i = 1; i < graph_->n(); i++)
     if (graph_->is_edge(0, i)) {
@@ -33,7 +33,7 @@ void PathSeeker::seek () {
   }
 }
 
-void PathSeeker::show_paths () const {
+void SimplePathSeeker::show_paths () const {
   vector<NodeInfo>::const_iterator it;
   for (it = nodeinfo_.begin(); it < nodeinfo_.end(); it++) {
     PathList::const_iterator jt;
@@ -44,5 +44,5 @@ void PathSeeker::show_paths () const {
   }
 }
 
-}
+} // namespace ep2
 

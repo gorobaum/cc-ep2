@@ -9,6 +9,7 @@
 #include "thread.h"
 #include "graph.h"
 #include "pathseeker.h"
+#include "simplepathseeker.h"
 #include "log.h"
 
 
@@ -95,9 +96,10 @@ bool init (int argc, char** argv) {
 }  
 
 void run () {
-  PathSeeker seeker(graph, num_min_paths);
-  seeker.seek();
-  seeker.show_paths();
+  PathSeeker *seeker = new SimplePathSeeker(graph, num_min_paths);
+  seeker->seek();
+  seeker->show_paths();
+  delete seeker;
 }
 
 void exit () {

@@ -1,10 +1,11 @@
+
 #ifndef EP2_PATHSEEKER_H_
 #define EP2_PATHSEEKER_H_
 
 #include <queue>
 #include <list>
+
 #include "graph.h"
-#include "path.h"
 #include "thread.h"
 #include "mutex.h"
 
@@ -12,37 +13,19 @@ namespace ep2 {
 
 class PathSeeker {
   public:
-    typedef std::queue< Path >  PathQueue;
-    typedef std::list< Path >   PathList;
-    
+    virtual void seek () = 0;
+    virtual void show_paths () const = 0;
+
+  protected:
+    Graph                     *graph_;
+    Mutex                     mutex_;
+    size_t                    minpath_num_;
     explicit PathSeeker (Graph *graph, size_t k) :
       graph_(graph) ,
-      nodeinfo_(graph->n(), NodeInfo(k)) {}
-
-    void seek ();
-    void show_paths () const;
-
-  private:
-    struct NodeInfo {
-      size_t    minpaths,
-                maxminpaths;
-      Mutex     mutex;
-      PathList  pathlist;
-      NodeInfo (size_t k) : minpaths(0),
-                            maxminpaths(k) {}
-      NodeInfo (const NodeInfo& copy) :
-        minpaths(copy.minpaths),
-        maxminpaths(copy.maxminpaths) {}
-      bool  full () const { return (pathlist.size() == maxminpaths); }
-      void  addminpath (const Path& minpath) {
-        pathlist.push_back(minpath); minpaths++;
-      }
-    };
-    Graph                     *graph_;
-    std::vector< NodeInfo >   nodeinfo_;
-    Mutex                     mutex_;
+      minpath_num_(k) {}
 };
 
-}
+} // namespace ep2
 
 #endif
+
