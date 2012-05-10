@@ -10,6 +10,6 @@
  src/pathseeker.h src/graph.h src/node.h src/path.h src/thread.h \
  src/barrier.h src/mutex.h src/log.h
 .temp/graph.o: src/graph.cxx src/graph.h src/node.h src/path.h \
- src/thread.h src/barrier.h
+ src/thread.h src/barrier.h src/log.h
 .temp/path.o: src/path.cxx src/path.h src/node.h src/log.h
 .temp/log.o: src/log.cxx src/log.h

@@ -90,7 +90,6 @@ bool init (int argc, char** argv) {
   }
 
   graph = make_matrix_from_file(pFileIn);
-  //graph->Dump();
   
   return true;
 }
