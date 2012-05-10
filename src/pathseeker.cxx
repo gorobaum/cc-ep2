@@ -1,9 +1,14 @@
 
 #include <cstdio>
+#include <string>
 
 #include "pathseeker.h"
+#include "log.h"
 
 namespace ep2 {
+
+using std::vector;
+using std::string;
 
 void PathSeeker::seek () {
   PathQueue pathqueue;
@@ -13,10 +18,30 @@ void PathSeeker::seek () {
       path.add_vertex(i);
       pathqueue.push(path);
     }
+  while (!pathqueue.empty()) {
+    Path path = pathqueue.front();
+    pathqueue.pop();
+    if (!nodeinfo_[path.last()].full() && path.valid()) {
+      nodeinfo_[path.last()].addminpath(path);
+      for (node i = 1; i < graph_->n(); i++)
+        if (graph_->is_edge(path.last(), i)) {
+          Path candidate = path;
+          candidate.add_vertex(i);
+          pathqueue.push(candidate);
+        }
+    }
+  }
 }
 
 void PathSeeker::show_paths () const {
-
+  vector<NodeInfo>::const_iterator it;
+  for (it = nodeinfo_.begin(); it < nodeinfo_.end(); it++) {
+    PathList::const_iterator jt;
+    printf("Para o vertice %d:\n", (it - nodeinfo_.begin()));
+    for (jt = it->pathlist.begin(); jt != it->pathlist.end(); jt++) {
+      jt->dump();
+    }
+  }
 }
 
 }

@@ -34,7 +34,9 @@ class PathSeeker {
         minpaths(copy.minpaths),
         maxminpaths(copy.maxminpaths) {}
       bool  full () const { return (pathlist.size() == maxminpaths); }
-      void  addminpath (const Path& minpath) { pathlist.push_back(minpath); }
+      void  addminpath (const Path& minpath) {
+        pathlist.push_back(minpath); minpaths++;
+      }
     };
     Graph                     *graph_;
     std::vector< NodeInfo >   nodeinfo_;

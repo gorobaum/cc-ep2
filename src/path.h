@@ -17,8 +17,10 @@ class Path {
     }
 
     void add_vertex (node vertex);
-    void dump ();
+    void dump () const;
     bool search_for_vertex (node vertex);
+    bool valid () const;
+    node last () const { return path_.back(); } 
 
   private:
     VertexPath  path_;
