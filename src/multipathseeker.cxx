@@ -18,10 +18,9 @@ typedef pair<Path,node> candidate;
 struct SeekArgs {
   MultiPathSeeker             *seeker_;
   MultiPathSeeker::PathQueue  initial_queue_;
-  Barrier                     *barrier_;
-  Thread                      *thread_;
-  SeekArgs (MultiPathSeeker *seeker, Barrier *barrier, Thread *thread) :
-    seeker_(seeker), barrier_(barrier), thread_(thread) {}
+  size_t                      id_;
+  SeekArgs (MultiPathSeeker *seeker, size_t id) :
+    seeker_(seeker), id_(id) {}
 };
 
 void MultiPathSeeker::seek () {
@@ -31,22 +30,23 @@ void MultiPathSeeker::seek () {
     if (graph_->is_edge(first_node(), i))
       pathqueue.push(candidate(path,i));
   const size_t np = Thread::number_of_processors();
-  vector<Thread>    threads;
   vector<SeekArgs>  seekargs; 
-  Barrier           barrier(np);
   for (size_t it = 0; it < np; it++) {
-    threads.push_back(Thread(seeking_thread));
-    Log().debug("Created thread "+utos(threads[it].id()));
-    seekargs.push_back(SeekArgs(this, &barrier, &threads[it]));
+    threads_.push_back(Thread(seeking_thread));
+    seekargs.push_back(SeekArgs(this, it));
+    Log().debug("Created thread "+utos(it));
   }
   for (size_t it = 0; !pathqueue.empty(); it=(it+1)%np ) {
+    Log().debug("Path {"+string(pathqueue.front().first)+"+"+utos(pathqueue.front().second)+"} do thread "+utos(it)+".");
     seekargs[it].initial_queue_.push(pathqueue.front());
     pathqueue.pop();
   }
+  for (size_t it = 0; it < np; it++) {
+    Log().debug("Dispatching thread "+utos(it));
+    threads_[it].run(static_cast<void*>(&seekargs[it]));
+  }
   for (size_t it = 0; it < np; it++)
-    threads[it].run(static_cast<void*>(&seekargs[it]));
-  for (size_t it = 0; it < np; it++)
-    threads[it].join();
+    threads_[it].join();
 }
 
 void MultiPathSeeker::show_paths () const {
@@ -55,8 +55,8 @@ void MultiPathSeeker::show_paths () const {
     it->dump(it-nodeinfo_.begin());
 }
 
-void MultiPathSeeker::do_seek (PathQueue& initial_queue, Barrier &barrier,
-                               Thread &thread) {
+void MultiPathSeeker::do_seek (PathQueue& initial_queue, size_t id) {
+  Log().debug("Thread "+utos(id)+" dispatched!");
   while (!initial_queue.empty()) {
     candidate path = initial_queue.front();
     initial_queue.pop();
@@ -70,18 +70,14 @@ void MultiPathSeeker::do_seek (PathQueue& initial_queue, Barrier &barrier,
           if (graph_->is_edge(path.second, i))
             initial_queue.push(candidate(minpath, i));
     }
-    Log().debug("Thread "+utos(thread.id())+" has arrived at the barrier.");
-    barrier.synchronize(thread);
+    Log().debug("Thread "+utos(id)+" has arrived at the barrier.");
+    barrier_.synchronize(id);
   }
 }
 
 void* MultiPathSeeker::seeking_thread (void *args) {
   SeekArgs *seekargs = static_cast<SeekArgs*>(args);
-  seekargs->seeker_->do_seek(
-    seekargs->initial_queue_,
-    *seekargs->barrier_,
-    *seekargs->thread_
-  );
+  seekargs->seeker_->do_seek(seekargs->initial_queue_, seekargs->id_);
   Thread::exit();
   return NULL; // never reaches here
 }

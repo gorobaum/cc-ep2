@@ -21,7 +21,8 @@ class MultiPathSeeker : public PathSeeker {
     
     explicit MultiPathSeeker (Graph *graph, size_t k) :
       PathSeeker(graph, k),
-      nodeinfo_(graph->n(), NodeInfo(k)) {}
+      nodeinfo_(graph->n(), NodeInfo(k)),
+      barrier_(Thread::number_of_processors()) {}
 
     void seek ();
     void show_paths () const;
@@ -46,7 +47,9 @@ class MultiPathSeeker : public PathSeeker {
         PathHeap      paths;
     };
     std::vector< NodeInfo > nodeinfo_;
-    void do_seek (PathQueue& initial_queue, Barrier &barrier, Thread &thread);
+    Barrier                 barrier_;
+    std::vector< Thread >   threads_;
+    void do_seek (PathQueue& initial_queue, size_t id);
     static void* seeking_thread (void *args);
 };
 

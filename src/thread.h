@@ -11,8 +11,9 @@ class Thread {
     typedef void* (*Routine) (void*);
     // TODO: Make thread pool.
     Thread (Routine routine) : 
-      running_(false), routine_(routine),
-      id_(next_id_++) {}
+      running_(false), routine_(routine) {
+      id_ = next_id_++;
+    }
     bool running () const { return running_; }
     void  run (void *arg);
     void* join ();

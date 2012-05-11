@@ -11,7 +11,7 @@ class Barrier {
   public:
     Barrier (long thread_num) :
       arrive_(thread_num, 0) {}
-    void synchronize (Thread& thread);
+    void synchronize (size_t id);
   private:
     std::vector<unsigned>   arrive_;
 };
