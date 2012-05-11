@@ -1,6 +1,7 @@
 
 #include <cstdio>
 #include <string>
+#include <algorithm>
 
 #include "multipathseeker.h"
 #include "log.h"
@@ -35,25 +36,28 @@ void MultiPathSeeker::seek () {
 }
 
 void MultiPathSeeker::show_paths () const {
-  /*
   vector<NodeInfo>::const_iterator it;
-  for (it = nodeinfo_.begin()+1; it < nodeinfo_.end(); it++) {
-    PathList::const_iterator jt;
-    Log().print("Para o vertice "+itos(it-nodeinfo_.begin())+":");
-    for (jt = it->paths.begin(); jt != it->paths.end(); jt++) {
-      jt->dump();
-    }
-  }
-  */
+  for (it = nodeinfo_.begin()+1; it < nodeinfo_.end(); it++)
+    it->dump(it-nodeinfo_.begin());
+}
+
+void MultiPathSeeker::NodeInfo::dump (node vertex) const {
+  PathHeap::const_iterator it;
+  Log().print("Para o vertice "+utos(vertex)+":");
+  PathHeap sorted(paths);
+  sort_heap(sorted.begin(), sorted.end());
+  for (it = sorted.begin(); it < sorted.end(); it++)
+    it->dump();
 }
 
 void MultiPathSeeker::NodeInfo::addminpath (const Path& minpath) {
   Mutex::Lock lock(mutex);
   if (full()) {
-    if (paths.top() < minpath) return;
-    else paths.pop();
+    if (paths.front() < minpath) return;
+    else pop_heap(paths.begin(), paths.end());
   }
-  paths.push(minpath);
+  paths.push_back(minpath);
+  push_heap(paths.begin(), paths.end());
 }
 
 } // namespace ep2

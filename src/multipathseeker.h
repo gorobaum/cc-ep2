@@ -3,17 +3,18 @@
 #define EP2_MULTIPATHSEEKER_H_
 
 #include <queue>
-#include <list>
+#include <vector>
 
 #include "pathseeker.h"
+#include "graph.h"
 #include "path.h"
 
 namespace ep2 {
 
 class MultiPathSeeker : public PathSeeker {
   public:
-    typedef std::queue< Path >          PathQueue;
-    typedef std::priority_queue< Path > PathHeap;
+    typedef std::queue< Path >  PathQueue;
+    typedef std::vector< Path > PathHeap;
     
     explicit MultiPathSeeker (Graph *graph, size_t k) :
       PathSeeker(graph, k),
@@ -34,6 +35,7 @@ class MultiPathSeeker : public PathSeeker {
           return (paths.size() == maxminpaths);
         }
         void  addminpath (const Path& minpath);
+        void  dump (node vertex) const;
       private:
         size_t        minpaths;
         const size_t  maxminpaths;
