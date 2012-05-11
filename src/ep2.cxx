@@ -19,13 +19,16 @@ namespace ep2 {
 using std::vector;
 using std::string;
 
-static Graph   *graph = NULL;
-static size_t  num_min_paths;
+static Graph  *graph = NULL;
+static size_t num_min_paths;
+static bool   use_simple = false;
 
 static void show_usage (const string& progname) {
   Log()
-    .print("Usage:").print()
-    .print("\t" + progname + " [-debug] [-warning] <n> <input_file>").print()
+    .print("Usage:")
+    .print()
+    .print("\t" + progname + " [-debug] [-warning] [-single] <n> <input_file>")
+    .print()
     .print("Where <n> is the number of minimum paths desired and <input_file>")
     .print("is the path to the file describing the graph.");
 }
@@ -73,6 +76,9 @@ bool init (int argc, char** argv) {
     } else if (strcmp(*argv, "-warning") == 0) {
       Log::set_warning();
       Log().debug("Warning mode activated.");
+    } else if (strcmp(*argv, "-single") == 0) {
+      Log().debug("Single-threaded seeker will be used.");
+      use_simple = true;
     }
     argc--; argv++;
   }
@@ -94,8 +100,11 @@ bool init (int argc, char** argv) {
 }
 
 void run () {
-  PathSeeker *seeker = new SimplePathSeeker(graph, num_min_paths);
-  //PathSeeker *seeker = new MultiPathSeeker(graph, num_min_paths);
+  PathSeeker *seeker = NULL;
+  if (use_simple)
+    seeker = new SimplePathSeeker(graph, num_min_paths);
+  else
+    seeker = new MultiPathSeeker(graph, num_min_paths);
   seeker->seek();
   seeker->show_paths();
   delete seeker;
