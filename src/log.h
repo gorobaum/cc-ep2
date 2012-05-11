@@ -6,6 +6,8 @@
 
 #include <string>
 
+#include "mutex.h"
+
 namespace ep2 {
 
 std::string itos (int i);
@@ -22,6 +24,7 @@ class Log {
   private:
     FILE *output_;
     static unsigned flags_;
+    static Mutex    mutex_;
     static unsigned debug_flag () { return 0x1; }
     static unsigned warning_flag () { return 0x2; }
 };

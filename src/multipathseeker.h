@@ -9,6 +9,8 @@
 #include "pathseeker.h"
 #include "graph.h"
 #include "path.h"
+#include "thread.h"
+#include "barrier.h"
 
 namespace ep2 {
 
@@ -32,11 +34,11 @@ class MultiPathSeeker : public PathSeeker {
         NodeInfo (const NodeInfo& copy) :
           minpaths(copy.minpaths),
           maxminpaths(copy.maxminpaths) {}
-        bool  full () const {
+        bool full () const {
           return (paths.size() == maxminpaths);
         }
-        void  addminpath (const Path& minpath);
-        void  dump (node vertex) const;
+        bool addminpath (const Path& minpath);
+        void dump (node vertex) const;
       private:
         size_t        minpaths;
         const size_t  maxminpaths;
@@ -44,7 +46,7 @@ class MultiPathSeeker : public PathSeeker {
         PathHeap      paths;
     };
     std::vector< NodeInfo > nodeinfo_;
-    void do_seek (const Path& initial_path);
+    void do_seek (PathQueue& initial_queue, Barrier &barrier, Thread &thread);
     static void* seeking_thread (void *args);
 };
 

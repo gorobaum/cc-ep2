@@ -5,7 +5,8 @@ namespace ep2 {
 
 using std::string;
 
-unsigned Log::flags_;
+unsigned  Log::flags_;
+Mutex     Log::mutex_;
 
 string itos (int i) {
   static char buffer[32];
@@ -20,6 +21,7 @@ string utos (unsigned i) {
 }
 
 Log& Log::print (const string& text) {
+  Mutex::Lock lock(mutex_);
   fputs(text.c_str(), output_);
   fputc(10, output_);
   fflush(output_);
