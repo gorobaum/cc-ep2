@@ -36,8 +36,8 @@ process [id = 1 to t] (path first) {
   while (!Q.empty()) {                      O(?)
     p,node = Q.pop_front()
     if (!p.has(node)) {
+      bool success = false
       if (list[node].max() > p.len+1)
-        bool success = false
         <
           if (list[node].max() > p.len+1) {
             list[node].add(p+node)
