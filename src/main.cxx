@@ -6,7 +6,7 @@
 
 int main(int argc, char** argv) {
   if (!ep2::init(argc, argv)) {
-    ep2::Log().print("Failed to initialize program. Exiting.");
+    ep2::Log().print("Failed to initialize program. Exiting.").print();
     return EXIT_FAILURE;
   }
   ep2::run();

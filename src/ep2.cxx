@@ -23,8 +23,8 @@ static size_t  num_min_paths;
 
 static void show_usage (const string& progname) {
   Log()
-    .print("Usage:")
-    .print("\t" + progname + " [-debug] [-warning] <n> <input_file>")
+    .print("Usage:").print()
+    .print("\t" + progname + " [-debug] [-warning] <n> <input_file>").print()
     .print("Where <n> is the number of minimum paths desired and <input_file>")
     .print("is the path to the file describing the graph.");
 }
@@ -45,10 +45,8 @@ static Graph* make_matrix_from_file(FILE *pFileIn) {
   c = fgetc(pFileIn);
   while (c != EOF) {
     if (c != ' ') {
-      if (c != '\n') {
+      if (c != '\n')
         line.push_back(!!(c-'0'));
-        //printf("M[%d] = %d\n", i, adjmatrix[i].back());
-      }
       else {
         if (!graph) {
           graph = new Graph(line.size());
