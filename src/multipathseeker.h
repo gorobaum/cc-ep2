@@ -43,6 +43,7 @@ class MultiPathSeeker : public PathSeeker {
         PathHeap      paths;
     };
     std::vector< NodeInfo > nodeinfo_;
+    void do_seek (const Path& initial_path);
     static void* seeking_thread (void *args);
 };
 

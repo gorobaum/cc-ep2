@@ -48,10 +48,15 @@ void MultiPathSeeker::show_paths () const {
     it->dump(it-nodeinfo_.begin());
 }
 
-void* MultiPathSeeker::seeking_thread (void *args) {
+void MultiPathSeeker::do_seek (const Path& initial_path) {
   // TODO
+}
+
+void* MultiPathSeeker::seeking_thread (void *args) {
+  SeekArgs *seekargs = static_cast<SeekArgs*>(args);
+  seekargs->seeker_.do_seek(seekargs->initial_path_);
   Thread::exit();
-  return NULL; // never reaches
+  return NULL; // never reaches here
 }
 
 void MultiPathSeeker::NodeInfo::addminpath (const Path& minpath) {
