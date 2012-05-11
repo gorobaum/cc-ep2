@@ -10,6 +10,7 @@
 #include "graph.h"
 #include "pathseeker.h"
 #include "simplepathseeker.h"
+#include "multipathseeker.h"
 #include "log.h"
 
 
@@ -94,6 +95,7 @@ bool init (int argc, char** argv) {
 
 void run () {
   PathSeeker *seeker = new SimplePathSeeker(graph, num_min_paths);
+  //PathSeeker *seeker = new MultiPathSeeker(graph, num_min_paths);
   seeker->seek();
   seeker->show_paths();
   delete seeker;

@@ -12,6 +12,13 @@ using std::vector;
 using std::string;
 using ep2::itos;
 
+struct SeekArgs {
+  MultiPathSeeker &seeker_;
+  Path            initial_path_;
+  SeekArgs (MultiPathSeeker &seeker, const Path initial_path) :
+    seeker_(seeker), initial_path_(initial_path) {}
+};
+
 void MultiPathSeeker::seek () {
   PathQueue pathqueue;
   for (node i = 1; i < graph_->n(); i++)
@@ -41,13 +48,10 @@ void MultiPathSeeker::show_paths () const {
     it->dump(it-nodeinfo_.begin());
 }
 
-void MultiPathSeeker::NodeInfo::dump (node vertex) const {
-  PathHeap::const_iterator it;
-  Log().print("Para o vertice "+utos(vertex)+":");
-  PathHeap sorted(paths);
-  sort_heap(sorted.begin(), sorted.end());
-  for (it = sorted.begin(); it < sorted.end(); it++)
-    it->dump();
+void* MultiPathSeeker::seeking_thread (void *args) {
+  // TODO
+  Thread::exit();
+  return NULL; // never reaches
 }
 
 void MultiPathSeeker::NodeInfo::addminpath (const Path& minpath) {
@@ -58,6 +62,15 @@ void MultiPathSeeker::NodeInfo::addminpath (const Path& minpath) {
   }
   paths.push_back(minpath);
   push_heap(paths.begin(), paths.end());
+}
+
+void MultiPathSeeker::NodeInfo::dump (node vertex) const {
+  PathHeap::const_iterator it;
+  Log().print("Para o vertice "+utos(vertex)+":");
+  PathHeap sorted(paths);
+  sort_heap(sorted.begin(), sorted.end());
+  for (it = sorted.begin(); it < sorted.end(); it++)
+    it->dump();
 }
 
 } // namespace ep2
