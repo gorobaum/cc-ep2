@@ -17,12 +17,14 @@ class Path {
     }
 
     void add_vertex (node vertex);
-    void dump () const;
     bool search_for_vertex (node vertex);
     bool valid () const;
     node last () const { return path_.back(); } 
-    bool operator< (const Path& rhs) {
-      return path_.size() < rhs.path_.size(); }
+    void dump () const;
+    bool operator< (const Path& rhs) const {
+      return path_.size() < rhs.path_.size();
+    }
+    operator std::string () const;
   private:
     VertexPath  path_;
 };
