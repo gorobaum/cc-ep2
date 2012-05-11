@@ -3,6 +3,7 @@ OBJS = \
     .temp/ep2.o \
     .temp/thread.o \
     .temp/main.o \
+    .temp/multipathseeker.o \
     .temp/barrier.o \
     .temp/simplepathseeker.o \
     .temp/graph.o \

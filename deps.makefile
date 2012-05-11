@@ -5,6 +5,9 @@
  src/simplepathseeker.h src/log.h
 .temp/thread.o: src/thread.cxx src/thread.h src/log.h
 .temp/main.o: src/main.cxx src/ep2.h src/log.h
+.temp/multipathseeker.o: src/multipathseeker.cxx src/multipathseeker.h \
+ src/pathseeker.h src/graph.h src/node.h src/path.h src/thread.h \
+ src/barrier.h src/mutex.h src/log.h
 .temp/barrier.o: src/barrier.cxx src/barrier.h src/thread.h src/log.h
 .temp/simplepathseeker.o: src/simplepathseeker.cxx src/simplepathseeker.h \
  src/pathseeker.h src/graph.h src/node.h src/path.h src/thread.h \

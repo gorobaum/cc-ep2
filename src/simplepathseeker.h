@@ -7,6 +7,7 @@
 
 #include "pathseeker.h"
 #include "path.h"
+#include "mutex.h"
 
 namespace ep2 {
 
