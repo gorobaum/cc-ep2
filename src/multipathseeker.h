@@ -4,6 +4,7 @@
 
 #include <queue>
 #include <vector>
+#include <utility>
 
 #include "pathseeker.h"
 #include "graph.h"
@@ -13,7 +14,7 @@ namespace ep2 {
 
 class MultiPathSeeker : public PathSeeker {
   public:
-    typedef std::queue< Path >  PathQueue;
+    typedef std::queue< std::pair< Path, node > >  PathQueue;
     typedef std::vector< Path > PathHeap;
     
     explicit MultiPathSeeker (Graph *graph, size_t k) :

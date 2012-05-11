@@ -10,7 +10,10 @@ namespace ep2 {
 
 using std::vector;
 using std::string;
+using std::pair;
 using ep2::itos;
+
+typedef pair<Path,node> candidate;
 
 struct SeekArgs {
   MultiPathSeeker &seeker_;
@@ -21,23 +24,19 @@ struct SeekArgs {
 
 void MultiPathSeeker::seek () {
   PathQueue pathqueue;
+  Path path(first_node());
   for (node i = 1; i < graph_->n(); i++)
-    if (graph_->is_edge(0, i)) {
-      Path path(0);
-      path.add_vertex(i);
-      pathqueue.push(path);
-    }
+    if (graph_->is_edge(first_node(), i))
+      pathqueue.push(candidate(path,i));
   while (!pathqueue.empty()) {
-    Path path = pathqueue.front();
+    candidate path = pathqueue.front();
     pathqueue.pop();
-    if (!nodeinfo_[path.last()].full() && path.valid()) {
-      nodeinfo_[path.last()].addminpath(path);
+    if (!nodeinfo_[path.second].full() && !path.first.has(path.second)) {
+      Path minpath = path.first+path.second;
+      nodeinfo_[path.second].addminpath(minpath);
       for (node i = 1; i < graph_->n(); i++)
-        if (graph_->is_edge(path.last(), i)) {
-          Path candidate = path;
-          candidate.add_vertex(i);
-          pathqueue.push(candidate);
-        }
+        if (graph_->is_edge(path.second, i))
+          pathqueue.push(candidate(minpath, i));
     }
   }
 }

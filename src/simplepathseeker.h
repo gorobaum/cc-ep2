@@ -13,7 +13,7 @@ namespace ep2 {
 
 class SimplePathSeeker : public PathSeeker {
   public:
-    typedef std::queue< Path >  PathQueue;
+    typedef std::queue< std::pair< Path, node > >  PathQueue;
     typedef std::list< Path >   PathList;
     
     explicit SimplePathSeeker (Graph *graph, size_t k) :
@@ -34,8 +34,8 @@ class SimplePathSeeker : public PathSeeker {
       NodeInfo (const NodeInfo& copy) :
         minpaths(copy.minpaths),
         maxminpaths(copy.maxminpaths) {}
-      bool  full () const { return (pathlist.size() == maxminpaths); }
-      void  addminpath (const Path& minpath) {
+      bool full () const { return (pathlist.size() == maxminpaths); }
+      void addminpath (const Path& minpath) {
         pathlist.push_back(minpath); minpaths++;
       }
     };

@@ -15,15 +15,16 @@ class Path {
     Path (size_t n) : link_(new Link(n)) {}
 
     Path operator+ (node vertex) const;
-    bool search_for_vertex (node vertex) const;
+    bool has (node vertex) const;
     node last () const { return link_->last(); } 
     void dump () const;
     bool operator< (const Path& rhs) const {
-      return path_.size() < rhs.path_.size();
+      return link_->size() < rhs.link_->size();
     }
     operator std::string () const;
   private:
     class Link {
+      public:
         Link (size_t n) :
           last_(0), parent_(NULL), set_(n, false), size_(0) {
           set_[last_] = true;
@@ -33,7 +34,7 @@ class Path {
           set_[last_] = true;
         }
         const Link* parent () const { return parent_; }
-        node last () const { return last; }
+        node last () const { return last_; }
         size_t size() const { return size_; }
         bool has (node vertex) const { return set_[vertex]; }
       private:
