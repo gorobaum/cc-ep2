@@ -1,6 +1,6 @@
 
 TODO list:
-  - CPUs com um processador => criar 2 threads mesmo assim.
+  - CPUs com um processador => criar 2 threads mesmo assim. [OK]
   - Destacar a implementação da barreira, colocando o arquivo e as linha no LEIAME
   - Verificar se as threads não estão passando a barreira antes da hora.
   - Msgs de debug, a cada barreira:
