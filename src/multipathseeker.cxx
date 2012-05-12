@@ -80,13 +80,15 @@ void MultiPathSeeker::do_seek (PathQueue& initial_queue, size_t id) {
         //Log().debug(from(id)+"Successfully added!");
         for (node i = 1; i < graph_->n(); i++)
           if (graph_->is_edge(path.second, i)) {
-            Log().debug(from(id)+"Queued +"+utos(i));
+            //Log().debug(from(id)+"Queued +"+utos(i));
             initial_queue.push(candidate(minpath, i));
           }
       } else; //Log().debug(from(id)+"Failed.");
     } else; //Log().debug(from(id)+"Cycle detected!");
     //Log().debug(from(id)+"=== Arrived at the barrier.");
+    first_to_arrive(id);
     barrier_.synchronize(id);
+    print_infos(id);
   }
   //Log().debug("Thread "+utos(id)+" finished its job.");
   barrier_.disconsider(id);
@@ -97,6 +99,22 @@ void* MultiPathSeeker::seeking_thread (void *args) {
   seekargs->seeker_->do_seek(seekargs->initial_queue_, seekargs->id_);
   Thread::exit();
   return NULL; // never reaches here
+}
+
+void MultiPathSeeker::first_to_arrive (int id) {
+  Mutex::Lock lock(mutexp);
+  if (first_ == -1) first_ = id;
+}
+
+void MultiPathSeeker::print_infos (int id) {
+  Mutex::Lock lock(mutexp);
+  if (first_ == id) {
+    Log().print("Iteração número "+utos(steps_));
+    barrier_.print_order(); 
+    Log().print("Caminhos aqui");
+    steps_++;
+    first_ = -1;
+  }
 }
 
 bool MultiPathSeeker::NodeInfo::addminpath (const Path& minpath) {

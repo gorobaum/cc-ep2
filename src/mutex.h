@@ -20,6 +20,7 @@ class Mutex {
     Mutex ();
     ~Mutex ();
     void lock ();
+    void try_lock ();
     void unlock ();
   private:
     friend class Lock;

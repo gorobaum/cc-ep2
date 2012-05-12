@@ -19,6 +19,11 @@ void Mutex::lock () {
     Log().warning("Mutex lock failed.");
 }
 
+void Mutex::try_lock () {
+  if (pthread_mutex_trylock(&mutex_))
+    Log().warning("Mutesx Busy.");
+}
+
 void Mutex::unlock () {
   if (pthread_mutex_unlock(&mutex_))
     Log().warning("Mutex unlock failed.");
