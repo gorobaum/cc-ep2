@@ -21,6 +21,9 @@ class Path {
     bool operator< (const Path& rhs) const {
       return link_->size() < rhs.link_->size();
     }
+    bool operator<= (const Path& rhs) const {
+      return link_->size() <= rhs.link_->size();
+    }
     operator std::string () const;
   private:
     class Link {

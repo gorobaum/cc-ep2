@@ -102,9 +102,12 @@ void* MultiPathSeeker::seeking_thread (void *args) {
 bool MultiPathSeeker::NodeInfo::addminpath (const Path& minpath) {
   Mutex::Lock lock(mutex);
   if (full()) {
-    if (paths.front() < minpath)
+    if (paths.front() <= minpath)
       return false;
-    else pop_heap(paths.begin(), paths.end());
+    else {
+      pop_heap(paths.begin(), paths.end());
+      paths.pop_back();
+    }
   }
   paths.push_back(minpath);
   push_heap(paths.begin(), paths.end());
