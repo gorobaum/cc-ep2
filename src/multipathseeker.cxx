@@ -37,7 +37,10 @@ void MultiPathSeeker::seek () {
     Log().debug("Created thread "+utos(it));
   }
   for (size_t it = 0; !pathqueue.empty(); it=(it+1)%np ) {
-    Log().debug("Path {"+string(pathqueue.front().first)+"+"+utos(pathqueue.front().second)+"} do thread "+utos(it)+".");
+    Log().debug(
+      "Path {"+string(pathqueue.front().first)+" + "+
+      utos(pathqueue.front().second)+"} do thread "+utos(it)+"."
+    );
     seekargs[it].initial_queue_.push(pathqueue.front());
     pathqueue.pop();
   }
@@ -60,11 +63,14 @@ void MultiPathSeeker::do_seek (PathQueue& initial_queue, size_t id) {
   while (!initial_queue.empty()) {
     candidate path = initial_queue.front();
     initial_queue.pop();
+    Log().debug("("+utos(id)+") New candidate: "+string(path.first)+" + "+utos(path.second));
     if (!path.first.has(path.second)) {
       Path minpath = path.first+path.second;
       bool success = false;
-      if (!nodeinfo_[path.second].full())
+      if (!nodeinfo_[path.second].full()) {
+        Log().debug("("+utos(id)+") Trying to add path: "+(string)minpath);
         success = nodeinfo_[path.second].addminpath(minpath);
+      }
       if (success)
         for (node i = 1; i < graph_->n(); i++)
           if (graph_->is_edge(path.second, i))
@@ -73,6 +79,8 @@ void MultiPathSeeker::do_seek (PathQueue& initial_queue, size_t id) {
     Log().debug("Thread "+utos(id)+" has arrived at the barrier.");
     barrier_.synchronize(id);
   }
+  Log().debug("Thread "+utos(id)+" finished its job.");
+  barrier_.disconsider(id);
 }
 
 void* MultiPathSeeker::seeking_thread (void *args) {
@@ -84,7 +92,6 @@ void* MultiPathSeeker::seeking_thread (void *args) {
 
 bool MultiPathSeeker::NodeInfo::addminpath (const Path& minpath) {
   Mutex::Lock lock(mutex);
-  Log().debug("Trying to add path: "+(string)minpath);
   if (full()) {
     if (paths.front() < minpath) return false;
     else pop_heap(paths.begin(), paths.end());
