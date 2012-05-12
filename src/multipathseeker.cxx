@@ -63,32 +63,32 @@ static string from (size_t id) {
 }
 
 void MultiPathSeeker::do_seek (PathQueue& initial_queue, size_t id) {
-  Log().debug(from(id)+"Thread dispatched!");
+  //Log().debug(from(id)+"Thread dispatched!");
   while (!initial_queue.empty()) {
     candidate path = initial_queue.front();
     initial_queue.pop();
-    Log().debug(from(id)+"New candidate: "+string(path.first)+" (+"+utos(path.second)+")");
+    //Log().debug(from(id)+"New candidate: "+string(path.first)+" (+"+utos(path.second)+")");
     if (!path.first.has(path.second)) {
-      Log().debug(from(id)+"It should be a path.");
+      //Log().debug(from(id)+"It should be a path.");
       Path minpath = path.first+path.second;
       bool success = false;
       //if (!nodeinfo_[path.second].full()) {
-        Log().debug(from(id)+"Trying to add path: "+(string)minpath);
+        //Log().debug(from(id)+"Trying to add path: "+(string)minpath);
         success = nodeinfo_[path.second].addminpath(minpath);
       //}
       if (success) {
-        Log().debug(from(id)+"Successfully added!");
+        //Log().debug(from(id)+"Successfully added!");
         for (node i = 1; i < graph_->n(); i++)
           if (graph_->is_edge(path.second, i)) {
             Log().debug(from(id)+"Queued +"+utos(i));
             initial_queue.push(candidate(minpath, i));
           }
-      } else Log().debug(from(id)+"Failed.");
-    } else Log().debug(from(id)+"Cycle detected!");
-    Log().debug(from(id)+"=== Arrived at the barrier.");
+      } else; //Log().debug(from(id)+"Failed.");
+    } else; //Log().debug(from(id)+"Cycle detected!");
+    //Log().debug(from(id)+"=== Arrived at the barrier.");
     barrier_.synchronize(id);
   }
-  Log().debug("Thread "+utos(id)+" finished its job.");
+  //Log().debug("Thread "+utos(id)+" finished its job.");
   barrier_.disconsider(id);
 }
 
