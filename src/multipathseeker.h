@@ -36,7 +36,7 @@ class MultiPathSeeker : public PathSeeker {
           minpaths(copy.minpaths),
           maxminpaths(copy.maxminpaths) {}
         bool full () const {
-          return (paths.size() == maxminpaths);
+          return (paths.size() >= maxminpaths);
         }
         bool addminpath (const Path& minpath);
         void dump (node vertex) const;

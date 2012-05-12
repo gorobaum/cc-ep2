@@ -26,12 +26,18 @@ class Path {
     class Link {
       public:
         Link (size_t n) :
-          last_(0), parent_(NULL), set_(n, false), size_(0) {
-          set_[last_] = true;
+          last_(first_node()),
+          parent_(NULL),
+          set_(n, false),
+          size_(0) {
+          set_[first_node()] = true;
         }
         Link (const Link *parent, node last) :
-          last_(last), parent_(parent), set_(parent->set_), size_(parent->size_+1) {
-          set_[last_] = true;
+          last_(last),
+          parent_(parent),
+          set_(parent->set_),
+          size_(parent->size_+1) {
+          set_[last] = true;
         }
         const Link* parent () const { return parent_; }
         node last () const { return last_; }

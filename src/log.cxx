@@ -9,13 +9,13 @@ unsigned  Log::flags_;
 Mutex     Log::mutex_;
 
 string itos (int i) {
-  static char buffer[32];
+  char buffer[32];
   sprintf(buffer, "%d", i);
   return buffer;
 }
 
 string utos (unsigned i) {
-  static char buffer[32];
+  char buffer[32];
   sprintf(buffer, "%u", i);
   return buffer;
 }

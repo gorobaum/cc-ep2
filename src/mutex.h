@@ -19,6 +19,8 @@ class Mutex {
     };
     Mutex ();
     ~Mutex ();
+    void lock ();
+    void unlock ();
   private:
     friend class Lock;
     pthread_mutex_t mutex_;

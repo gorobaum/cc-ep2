@@ -1,8 +1,11 @@
 
+#include <unistd.h>
+#include <cmath>
+
 #include "barrier.h"
 #include "log.h"
 
-#define SKIP {}
+#define SKIP //{sched_yield();}
 
 namespace ep2 {
 
@@ -10,21 +13,20 @@ static unsigned log_2 (unsigned n) {
   if (n == 0) {
     Log().warning("0 processadores!?");
   }
-  unsigned count = 0;
-  while (n) n >>= 1, ++count;
-  return count - (n == (1u << (count-1)));
+  return (unsigned)ceil(log2(n));
 }
 
 void Barrier::synchronize (size_t id) {
   // num_stages = ceil(log2(n)), where n is the number of threads.
   unsigned num_stages = log_2(arrive_.size());
-
   for (unsigned s = 0; s < num_stages; s++) {
+    Log().debug("("+utos(id)+") === At stage "+utos(s));
     arrive_[id]++;
     // algoritmo magico
     size_t another = (id+(1<<s))%arrive_.size();
     while (arrive_[another] < arrive_[id]) SKIP;
   }
+  Log().debug("("+utos(id)+") === Leaving the barrier. ");
 }
 
 void Barrier::disconsider (size_t id) {
