@@ -1,14 +1,15 @@
 
 #include <cstdio>
-
 #include <unistd.h>
+
+#include <algorithm>
 
 #include "thread.h"
 #include "log.h"
 
 namespace ep2 {
 
-unsigned Thread::next_id_ = 0;
+using std::min;
 
 void Thread::run (void *arg) {
   if (!running_) {
@@ -28,12 +29,8 @@ void* Thread::join () {
   return ret;
 }
 
-unsigned Thread::id () {
-  return id_;
-}
-
 long Thread::number_of_processors () {
-  return sysconf(_SC_NPROCESSORS_ONLN);
+  return min(sysconf(_SC_NPROCESSORS_ONLN), 2l);
 }
 
 void Thread::exit () {

@@ -4,3 +4,4 @@
 ep2
 *.lua
 build
+perf.data*
