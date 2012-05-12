@@ -25,7 +25,7 @@ void Barrier::print_order () {
   ThreadOrder::iterator it;
   
   for (it = threadorder_.begin(); it < threadorder_.end(); it++)
-    Log().debug("Thread "+utos((*it))+" arrived at the barrier. YEAH");
+    Log().debug("Thread "+utos((*it))+" arrived at the barrier.");
   threadorder_.clear();
 }
 

@@ -111,7 +111,7 @@ void MultiPathSeeker::print_infos (int id) {
   if (first_ == id) {
     Log().print("Iteração número "+utos(steps_));
     barrier_.print_order(); 
-    Log().print("Caminhos aqui");
+    show_paths();
     steps_++;
     first_ = -1;
   }
