@@ -17,8 +17,8 @@ static unsigned log_2 (unsigned n) {
 }
 
 void Barrier::push_new_thread (int id) {
+  Mutex::Lock lock(mutex_);
   threadorder_.push_back(id);
-  Log().debug("Thread "+utos(id)+" pushed");
 }
 
 void Barrier::print_order () {
@@ -26,7 +26,7 @@ void Barrier::print_order () {
   
   for (it = threadorder_.begin(); it < threadorder_.end(); it++)
     Log().debug("Thread "+utos((*it))+" arrived at the barrier. YEAH");
-  threadorder_ = ThreadOrder();
+  threadorder_.clear();
 }
 
 void Barrier::synchronize (size_t id) {
