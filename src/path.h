@@ -43,6 +43,7 @@ class Path {
         node last () const { return last_; }
         size_t size() const { return size_; }
         bool has (node vertex) const { return set_[vertex]; }
+        std::string dump_set () const;
       private:
         const node    last_;
         const Link    *parent_;

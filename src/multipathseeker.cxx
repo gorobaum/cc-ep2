@@ -25,7 +25,7 @@ struct SeekArgs {
 
 void MultiPathSeeker::seek () {
   PathQueue pathqueue;
-  Path path(first_node());
+  Path path(graph_->n());
   for (node i = 1; i < graph_->n(); i++)
     if (graph_->is_edge(first_node(), i))
       pathqueue.push(candidate(path,i));
