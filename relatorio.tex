@@ -83,8 +83,55 @@ uso do programa encontram-se no arquivo LEIAME.
     do algoritmo compensasse a inserção de novos caminhos mínimos.
 
 \section{Implementação da solução}
+  Fizemos uma série de classes para organizar a estrutura do programa, mas não
+  existe uma classe principal que cuida de tudo. Quem faz isso são as funções
+  encontradas nos arquivos \textbf{src/ep2.h} e \textbf{src/ep2.cxx}, que de
+  fato usam as classes que fizemos.
 
   \subsection{Breve descrição das classes}
+    Explicamos aqui o papel de cada classe, organizadas de acordo com suas
+    características em comum. \\
+
+    \textit{Classes utilitárias:}
+    \begin{itemize}
+      \item[\textbf{Log}:]
+        Responsável por imprimir a saída do programa de maneira organizada,
+        omitindo mensagens de debug ou avisos internos quando estes não forem
+        explicitamente requisitados pelo usuário.
+    \end{itemize}
+
+    \textit{Classes de manipulação de grafos:}
+    \begin{itemize}
+      \item[\textbf{Graph}:]
+        Responsável por representar um grafo cujas arestas têm todas custo 1.
+        Usamos uma matriz de adjacência.
+      \item[\textbf{Path}:]
+        Responsável por representar um caminho no grafo.
+    \end{itemize}
+
+    \textit{Classes de manipulação de threads:}
+    \begin{itemize}
+      \item[\textbf{Thread}:]
+        Responsável por representar uma thread do programa. É implementada
+        usando a libpthreads.
+      \item[\textbf{Barrier}:]
+        Responsável por representar uma barreira simétrica. Usa a implementação
+        de barreira de disseminação.
+    \end{itemize}
+
+    \textit{Classes destinadas ao algoritmo:}
+    \begin{itemize}
+      \item[\textbf{PathSeeker}:]
+        Interface que todo buscador de caminhos deve implementar. É importante
+        notar que essa classe não diz nada a respeito do uso de programação
+        concorrente. Quem faz isso são as classes que herdam dela.
+      \item[\textbf{SimplePathSeeker}:]
+        Implementação de PathSeeker \textbf{sem concorrência}. Sua implementação
+        segue a ideia formulada na seção 2.2.
+      \item[\textbf{MultiPathSeeker}:]
+        Implementação de PathSeeker \textbf{com concorrência}. Sua implementação
+        segue a ideia formulada na seção 2.3.
+    \end{itemize}
 
   \subsection{Alguns detalhes de implementação}
 
