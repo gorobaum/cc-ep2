@@ -9,7 +9,7 @@
 
 namespace ep2 {
 
-using std::min;
+using std::max;
 
 void Thread::run (void *arg) {
   if (!running_) {
