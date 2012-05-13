@@ -114,6 +114,13 @@ uso do programa encontram-se no arquivo LEIAME.
       \item[\textbf{Thread}:]
         Responsável por representar uma thread do programa. É implementada
         usando a libpthreads.
+      \item[\textbf{Mutex}:]
+        Responsável por representar um mutex de trava para regiões críticas.
+        Fizemos também uma subclasse Mutex::Lock para facilitar o uso dos mutex.
+        Quando um objeto do tipo Lock é criado, a trava é imediatamente
+        adquirida. Ela é liberada naturalmente quando o objeto for destruído,
+        o que no C++ acontece quando o escopo no qual ele foi criado houver
+        terminado.
       \item[\textbf{Barrier}:]
         Responsável por representar uma barreira simétrica. Usa a implementação
         de barreira de disseminação.
@@ -147,7 +154,8 @@ uso do programa encontram-se no arquivo LEIAME.
 
     Para fins de eliminar vazamento de memória, tivemos que fazer um vetor com
     todos os caminho criados, para ao final do programa deletarmos todos da
-    memória.
+    memória. Isso implicou no uso de um mutex para proteger o acesso a esse
+    vetor pelas várias threads do programa.
 
   \subsection{Sobre a barreira simétrica usada}
     Como já mencionado, optamos por uma barreira simétrica de disseminação. A
@@ -177,8 +185,3633 @@ uso do programa encontram-se no arquivo LEIAME.
 
   \subsection{Resultado para o grafo da NSFNet}
 
-  \subsection{Comparações de eficiência}
+\begin{verbatim}
+[DEBUG] Debug mode activated.
 
-\section{Conclusões}
+[DEBUG] Found 2 available cores.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 1
+[DEBUG] Thread 1 found a new shortest path to node 2
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+
+Para o vertice 3:
+
+Para o vertice 4:
+
+Para o vertice 5:
+
+Para o vertice 6:
+
+Para o vertice 7:
+
+Para o vertice 8:
+
+Para o vertice 9:
+
+Para o vertice 10:
+
+Para o vertice 11:
+
+Para o vertice 12:
+
+Para o vertice 13:
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 1==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 found a new shortest path to node 1
+[DEBUG] Thread 0 found a new shortest path to node 4
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+
+Para o vertice 3:
+
+Para o vertice 4:
+(1) 0 - 4
+
+Para o vertice 5:
+
+Para o vertice 6:
+
+Para o vertice 7:
+
+Para o vertice 8:
+
+Para o vertice 9:
+
+Para o vertice 10:
+
+Para o vertice 11:
+
+Para o vertice 12:
+
+Para o vertice 13:
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 2==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 found a new shortest path to node 6
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 2
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+
+Para o vertice 4:
+(1) 0 - 4
+
+Para o vertice 5:
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+
+Para o vertice 7:
+
+Para o vertice 8:
+
+Para o vertice 9:
+
+Para o vertice 10:
+
+Para o vertice 11:
+
+Para o vertice 12:
+
+Para o vertice 13:
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 3==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 3
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+
+Para o vertice 5:
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+
+Para o vertice 7:
+
+Para o vertice 8:
+
+Para o vertice 9:
+
+Para o vertice 10:
+
+Para o vertice 11:
+
+Para o vertice 12:
+
+Para o vertice 13:
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 4==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 8
+[DEBUG] Thread 1 found a new shortest path to node 3
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 1 - 3
+(3) 0 - 2 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+
+Para o vertice 5:
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+
+Para o vertice 7:
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+
+Para o vertice 9:
+
+Para o vertice 10:
+
+Para o vertice 11:
+
+Para o vertice 12:
+
+Para o vertice 13:
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 5==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 3
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 found a new shortest path to node 8
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+
+Para o vertice 5:
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+
+Para o vertice 7:
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+
+Para o vertice 10:
+
+Para o vertice 11:
+
+Para o vertice 12:
+
+Para o vertice 13:
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 6==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 5
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+
+Para o vertice 7:
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+
+Para o vertice 10:
+
+Para o vertice 11:
+
+Para o vertice 12:
+
+Para o vertice 13:
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 7==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 11
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 found a new shortest path to node 5
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+
+Para o vertice 7:
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+
+Para o vertice 10:
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 8==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 found a new shortest path to node 9
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+
+Para o vertice 7:
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 9==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 found a new shortest path to node 13
+[DEBUG] Thread 0 found a new shortest path to node 6
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 10==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 11==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 found a new shortest path to node 4
+[DEBUG] Thread 0 found a new shortest path to node 4
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 12==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 13==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 7
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 found a new shortest path to node 7
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 1 - 8 - 7
+(4) 0 - 2 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 14==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 10
+[DEBUG] Thread 1 found a new shortest path to node 10
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 1 - 8 - 7
+(4) 0 - 2 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 15==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 1 - 8 - 7
+(4) 0 - 2 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 16==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 1 - 8 - 7
+(4) 0 - 2 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 17==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 1 - 8 - 7
+(4) 0 - 2 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 18==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 1 - 8 - 7
+(4) 0 - 2 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 19==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 found a new shortest path to node 7
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 20==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 21==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 found a new shortest path to node 12
+[DEBUG] Thread 0 found a new shortest path to node 12
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 22==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 14
+[DEBUG] Thread 1 found a new shortest path to node 14
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 23==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 24==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 25==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 found a new shortest path to node 11
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 9
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(5) 0 - 2 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 26==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 13
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(5) 0 - 2 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 27==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(5) 0 - 2 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 28==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(5) 0 - 2 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 29==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 found a new shortest path to node 11
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 30==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 31==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 32==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 33==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 34==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+
+[DEBUG] ==========End of iteration 35==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 found a new shortest path to node 15
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(5) 0 - 2 - 6 - 13 - 12 - 15
+
+[DEBUG] ==========End of iteration 36==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(5) 0 - 2 - 6 - 13 - 12 - 15
+
+[DEBUG] ==========End of iteration 37==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(5) 0 - 2 - 6 - 13 - 12 - 15
+
+[DEBUG] ==========End of iteration 38==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(5) 0 - 2 - 6 - 13 - 12 - 15
+
+[DEBUG] ==========End of iteration 39==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 found a new shortest path to node 15
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(5) 0 - 2 - 6 - 13 - 14 - 15
+(5) 0 - 2 - 6 - 13 - 12 - 15
+
+[DEBUG] ==========End of iteration 40==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(5) 0 - 2 - 6 - 13 - 14 - 15
+(5) 0 - 2 - 6 - 13 - 12 - 15
+
+[DEBUG] ==========End of iteration 41==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 found a new shortest path to node 15
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 12 - 15
+(5) 0 - 2 - 6 - 13 - 14 - 15
+
+[DEBUG] ==========End of iteration 42==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 12 - 15
+(5) 0 - 2 - 6 - 13 - 14 - 15
+
+[DEBUG] ==========End of iteration 43==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 12 - 15
+(5) 0 - 2 - 6 - 13 - 14 - 15
+
+[DEBUG] ==========End of iteration 44==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 12 - 15
+(5) 0 - 2 - 6 - 13 - 14 - 15
+
+[DEBUG] ==========End of iteration 45==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 found a new shortest path to node 15
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 46==========
+[DEBUG] Thread 1 is searching for a new path...
+[DEBUG] Thread 1 did not find any paths.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 1 arrived at the barrier.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 47==========
+[DEBUG] Thread 1 has finished its job.
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 48==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 49==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 50==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 51==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 52==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 53==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 54==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 55==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 56==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 57==========
+[DEBUG] Thread 0 is searching for a new path...
+[DEBUG] Thread 0 did not find any paths.
+[DEBUG] Thread 0 arrived at the barrier.
+[DEBUG] Current paths:
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+[DEBUG] ==========End of iteration 58==========
+[DEBUG] Thread 0 has finished its job.
+The program has taken 58 iterations to terminate.
+[DEBUG] ===========Final Paths===========
+Para o vertice 1:
+(1) 0 - 1
+(2) 0 - 2 - 1
+
+Para o vertice 2:
+(1) 0 - 2
+(2) 0 - 1 - 2
+
+Para o vertice 3:
+(2) 0 - 4 - 3
+(2) 0 - 1 - 3
+
+Para o vertice 4:
+(1) 0 - 4
+(3) 0 - 1 - 3 - 4
+
+Para o vertice 5:
+(2) 0 - 4 - 5
+(3) 0 - 2 - 6 - 5
+
+Para o vertice 6:
+(2) 0 - 2 - 6
+(3) 0 - 1 - 2 - 6
+
+Para o vertice 7:
+(3) 0 - 4 - 5 - 7
+(3) 0 - 1 - 8 - 7
+
+Para o vertice 8:
+(2) 0 - 1 - 8
+(3) 0 - 2 - 1 - 8
+
+Para o vertice 9:
+(3) 0 - 2 - 6 - 9
+(4) 0 - 1 - 2 - 6 - 9
+
+Para o vertice 10:
+(3) 0 - 1 - 8 - 10
+(4) 0 - 2 - 1 - 8 - 10
+
+Para o vertice 11:
+(2) 0 - 4 - 11
+(4) 0 - 1 - 3 - 4 - 11
+
+Para o vertice 12:
+(3) 0 - 4 - 11 - 12
+(4) 0 - 2 - 6 - 13 - 12
+
+Para o vertice 13:
+(3) 0 - 2 - 6 - 13
+(4) 0 - 1 - 2 - 6 - 13
+
+Para o vertice 14:
+(3) 0 - 4 - 11 - 14
+(4) 0 - 2 - 6 - 13 - 14
+
+Para o vertice 15:
+(4) 0 - 4 - 11 - 14 - 15
+(4) 0 - 4 - 11 - 12 - 15
+
+\end{verbatim}
+
+  \subsection{Comparações de eficiência}
+    Fizemos alguns testes de eficiência por curiosidade, e deixamos aqui
+    algumas das estatísticas obtidas.
+
+    Geramos um grafo completo de 1000 vértices e rodamos o programa para
+    encontrar os 2 menores caminhos para cada vértice. Comparamos o tempo de
+    execução entre o algoritmo simples (com -single) e o paralelizado. O
+    algoritmo concorrente levou em média aproximadamente quinze vezes mais tempo
+    que o algoritmo simples.
+
+    Outro teste comparativo que fizemos foi com relação ao número de threads
+    usadas para resolver o grafo da NSFNet, mas dessa levamos em consideração
+    apenas o número de iterações do algoritmo. Com duas threads, o programa
+    rodou em 58 iterações. Com quatro, o número de iterações variou entre 37 e
+    48. Com seis, de 35 a 38. Com oito, de 23 a 121. Todos os testes foram
+    rodados na mesma máquina, que possuía apenas 2 cores.
 
 \end{document}
