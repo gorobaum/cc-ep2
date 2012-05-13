@@ -30,6 +30,7 @@ void MultiPathSeeker::seek () {
     if (graph_->is_edge(first_node(), i))
       pathqueue.push(candidate(path,i));
   const size_t np = Thread::number_of_processors();
+  Log().debug("Found "+utos(np)+" available cores.");
   vector<SeekArgs>  seekargs; 
   for (size_t it = 0; it < np; it++) {
     threads_.push_back(Thread(seeking_thread));
