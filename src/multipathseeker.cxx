@@ -58,40 +58,37 @@ void MultiPathSeeker::show_paths () const {
     it->dump(it-nodeinfo_.begin());
 }
 
-static string from (size_t id) {
-  return "("+utos(id)+") ";
-}
-
 void MultiPathSeeker::do_seek (PathQueue& initial_queue, size_t id) {
-  //Log().debug(from(id)+"Thread dispatched!");
+  string name = "Thread "+utos(id)+" ";
   while (!initial_queue.empty()) {
+    Log().debug(name+"is searching for a new path...");
     candidate path = initial_queue.front();
     initial_queue.pop();
-    //Log().debug(from(id)+"New candidate: "+string(path.first)+" (+"+utos(path.second)+")");
+    //Log().debug(name+"New candidate: "+string(path.first)+" (+"+utos(path.second)+")");
     if (!path.first.has(path.second)) {
-      //Log().debug(from(id)+"It should be a path.");
+      //Log().debug(name+"It should be a path.");
       Path minpath = path.first+path.second;
       bool success = false;
       //if (!nodeinfo_[path.second].full()) {
-        //Log().debug(from(id)+"Trying to add path: "+(string)minpath);
+        //Log().debug(name+"Trying to add path: "+(string)minpath);
         success = nodeinfo_[path.second].addminpath(minpath);
       //}
       if (success) {
-        //Log().debug(from(id)+"Successfully added!");
+        Log().debug(name+"found a new shortest path to node "+
+                    utos(path.second));
         for (node i = 1; i < graph_->n(); i++)
           if (graph_->is_edge(path.second, i)) {
-            //Log().debug(from(id)+"Queued +"+utos(i));
+            //Log().debug(name+"Queued +"+utos(i));
             initial_queue.push(candidate(minpath, i));
           }
-      } else; //Log().debug(from(id)+"Failed.");
-    } else; //Log().debug(from(id)+"Cycle detected!");
-    //Log().debug(from(id)+"=== Arrived at the barrier.");
+      } else Log().debug(name+"did not find any paths.");
+    } else Log().debug(name+"did not find any paths.");
     first_to_arrive(id);
     barrier_.synchronize(id);
     print_infos(id);
     barrier_p.synchronize(id);
   }
-  //Log().debug("Thread "+utos(id)+" finished its job.");
+  Log().debug(name+"has finished its job.");
   barrier_.disconsider(id);
   barrier_p.disconsider(id);
 }
@@ -112,7 +109,10 @@ void MultiPathSeeker::print_infos (int id) {
   Mutex::Lock lock(mutexp);
   if (first_ == id) {
         barrier_.print_order(); 
-    if (Log().debug_on() == true) show_paths();
+    if (Log().debug_on() == true) {
+      Log().debug("Current paths:");
+      show_paths();
+    }
     Log().debug("==========End of iteration "+utos(steps_)+"==========");
     steps_++;
     first_ = -1;
