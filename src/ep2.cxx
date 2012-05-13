@@ -73,6 +73,7 @@ bool init (int argc, char** argv) {
     if (strcmp(*argv, "-debug") == 0) {
       Log::set_debug();
       Log().debug("Debug mode activated.");
+      Log().print();
     } else if (strcmp(*argv, "-warning") == 0) {
       Log::set_warning();
       Log().debug("Warning mode activated.");

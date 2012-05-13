@@ -34,18 +34,18 @@ void MultiPathSeeker::seek () {
   for (size_t it = 0; it < np; it++) {
     threads_.push_back(Thread(seeking_thread));
     seekargs.push_back(SeekArgs(this, it));
-    Log().debug("Created thread "+utos(it));
+    //Log().debug("Created thread "+utos(it));
   }
   for (size_t it = 0; !pathqueue.empty(); it=(it+1)%np ) {
-    Log().debug(
+    /*Log().debug(
       "Path {"+string(pathqueue.front().first)+" + "+
       utos(pathqueue.front().second)+"} do thread "+utos(it)+"."
-    );
+    );*/
     seekargs[it].initial_queue_.push(pathqueue.front());
     pathqueue.pop();
   }
   for (size_t it = 0; it < np; it++) {
-    Log().debug("Dispatching thread "+utos(it));
+    //Log().debug("Dispatching thread "+utos(it));
     threads_[it].run(static_cast<void*>(&seekargs[it]));
   }
   for (size_t it = 0; it < np; it++)
@@ -56,7 +56,7 @@ void MultiPathSeeker::show_paths () const {
   vector<NodeInfo>::const_iterator it;
   if (Log().debug_on() == false) Log().print("The program has take "
       +utos(steps_-1)+" iterations to terminate.");
-  for (it = nodeinfo_.begin()+1; it < nodeinfo_.end(); it++)
+  for (it = nodeinfo_.begin()+1; it < nodeinfo_.end(); it++) 
     it->dump(it-nodeinfo_.begin());
 
 }
@@ -114,9 +114,9 @@ void MultiPathSeeker::first_to_arrive (int id) {
 void MultiPathSeeker::print_infos (int id) {
   Mutex::Lock lock(mutexp);
   if (first_ == id) {
-    Log().debug("==========Iteration "+utos(steps_)+"==========");
-    barrier_.print_order(); 
+        barrier_.print_order(); 
     if (Log().debug_on() == true) show_paths();
+    Log().debug("==========End of iteration "+utos(steps_)+"==========");
     steps_++;
     first_ = -1;
   }
@@ -142,8 +142,10 @@ void MultiPathSeeker::NodeInfo::dump (node vertex) const {
   Log().print("Para o vertice "+utos(vertex)+":");
   PathHeap sorted(paths);
   sort_heap(sorted.begin(), sorted.end());
-  for (it = sorted.begin(); it < sorted.end(); it++)
+  for (it = sorted.begin(); it < sorted.end(); it++) {
     it->dump();
+    Log().print();
+  }
 }
 
 } // namespace ep2
