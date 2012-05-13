@@ -106,7 +106,7 @@ void run () {
   else
     seeker = new MultiPathSeeker(graph, num_min_paths);
   seeker->seek();
-  Log().print("===========Caminhos Finais===========");
+  Log().debug("===========Paths===========");
   seeker->show_paths();
   delete seeker;
 }

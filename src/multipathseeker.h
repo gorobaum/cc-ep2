@@ -24,7 +24,7 @@ class MultiPathSeeker : public PathSeeker {
       nodeinfo_(graph->n(), NodeInfo(k)),
       barrier_(Thread::number_of_processors()),
       barrier_p(Thread::number_of_processors()),
-      steps_(0),
+      steps_(1),
       first_(-1) {}
 
     void seek ();

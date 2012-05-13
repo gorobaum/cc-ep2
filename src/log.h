@@ -21,6 +21,7 @@ class Log {
     Log& warning (const std::string& text = std::string());
     static void set_debug ();
     static void set_warning ();
+    bool debug_on() { return flags_ & 0x1; }
   private:
     FILE *output_;
     static unsigned flags_;

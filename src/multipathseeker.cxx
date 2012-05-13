@@ -54,8 +54,11 @@ void MultiPathSeeker::seek () {
 
 void MultiPathSeeker::show_paths () const {
   vector<NodeInfo>::const_iterator it;
+  if (Log().debug_on() == false) Log().print("The program has take "
+      +utos(steps_-1)+" iterations to terminate.");
   for (it = nodeinfo_.begin()+1; it < nodeinfo_.end(); it++)
     it->dump(it-nodeinfo_.begin());
+
 }
 
 static string from (size_t id) {
@@ -111,9 +114,9 @@ void MultiPathSeeker::first_to_arrive (int id) {
 void MultiPathSeeker::print_infos (int id) {
   Mutex::Lock lock(mutexp);
   if (first_ == id) {
-    Log().print("Iteração número "+utos(steps_));
+    Log().debug("==========Iteration "+utos(steps_)+"==========");
     barrier_.print_order(); 
-    show_paths();
+    if (Log().debug_on() == true) show_paths();
     steps_++;
     first_ = -1;
   }
