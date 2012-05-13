@@ -1,0 +1,60 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+
+\title{MAC0438 - Programação Concorrente - 1s2012 \\ Relatório}
+\author{Thiago de Gouveia Nunes \\ Wilson Kazuo Mizutani}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\clearpage
+\section{Introdução}
+  Esse relatório trata das decisões tomadas na implementação desse EP. Também
+fornece uma saída do programa para a entrada de exemplo fornecida no enunciado,
+além de explicitar a localização no código da implementação da barreira
+simétrica usada.
+  Informações sobre como como compilar, as dependÊncias necessárias e o modo de
+uso do programa encontram-se no arquivo LEIAME.
+
+\section{Solução desenvolvida}
+
+  \subsection{Ideia geral}
+    A ideia geral da nossa solução se divide em duas partes:
+      \begin{itemize}
+        \item[\textbf 1.]
+          Estender o algoritmo de busca em largura (Breadth-First Search, um
+          caso particular do algoritmo de Dijkstra no qual todas as arestas
+          possuem custo 1) para que ele encontre não só o menor caminhos, mas
+          sim os {\textbf n} menores caminhos.
+        \item[\textbf 2.]
+          Refatorar esse algoritmo para usar programação concorrente, de tal
+          maneira que cada thread seja responsável por tentar encontrar um novo
+          caminho e depois sincronizar com as demais, criando assim um processo
+          iterativo.
+      \end{itemize}
+
+  \subsection{Estendendo a busca em largura}
+
+  \subsection{Aplicando concorrência}
+
+\section{Implementação da solução}
+
+  \subsection{Breve descrição das classes}
+
+  \subsection{Alguns detalhes de implementação}
+
+  \subsection{Sobre a barreira simétrica usada}
+
+\section{Resultados}
+
+  \subsection{Resultado para o grafo da NSFNet}
+
+  \subsection{Comparações de eficiência}
+
+\section{Conclusões}
+
+\end{document}
