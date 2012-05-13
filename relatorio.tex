@@ -38,6 +38,27 @@ uso do programa encontram-se no arquivo LEIAME.
       \end{itemize}
 
   \subsection{Estendendo a busca em largura}
+    Basicamente, aproveitamos a propriedade da busca em largura na qual um novo
+    vértice retirado da fila está sendo visitado pela primeira vez e através do
+    menor caminho.
+
+    Estendemos o algoritmo para ter uma fila de caminhos ao invés de vértices,
+    por conveniência, e ao invés de deixarmos de visitar um vértice após passar
+    po ele apenas uma vez, o fazemos após {\textbf n} vezes (o que significa
+    que ele já tem n caminhos mínimos terminando nele).
+
+    Assim, a propriedade do nosso algoritmo (ainda no caso não-concorrente)
+    seria que um novo caminho retirado da fila é o próximo menor caminho que
+    termina no mesmo último vértice dele. Mas como o enunciado do EP pedia que
+    cada thread cuidasse de apenas um caminho, mudamos isso de forma que, na
+    verdade, insere-se apenas candidatos a caminho na fila. A propriedade fica
+    portanto que um novo candidato retirado da fila {\textit pode} ser o próximo
+    menor caminho que termina no seu último vértice, {\textit contanto que ele
+    não seja um ciclo}.
+
+    Uma consequência disso é que o programa vai com certeza ficar menos
+    eficiente, pois há menos restrições sobre quem entra na fila, e portanto ela
+    potencialmente terá mais elementos do que na maneira anterior.
 
   \subsection{Aplicando concorrência}
 
