@@ -23,6 +23,7 @@ class MultiPathSeeker : public PathSeeker {
       PathSeeker(graph, k),
       nodeinfo_(graph->n(), NodeInfo(k)),
       barrier_(Thread::number_of_processors()),
+      barrier_p(Thread::number_of_processors()),
       steps_(0),
       first_(-1) {}
 
@@ -50,6 +51,7 @@ class MultiPathSeeker : public PathSeeker {
     };
     std::vector< NodeInfo > nodeinfo_;
     Barrier                 barrier_;
+    Barrier                 barrier_p;
     Mutex                   mutexp;
     std::vector< Thread >   threads_;
     std::vector<int>        threads_order_;

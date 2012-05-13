@@ -89,9 +89,11 @@ void MultiPathSeeker::do_seek (PathQueue& initial_queue, size_t id) {
     first_to_arrive(id);
     barrier_.synchronize(id);
     print_infos(id);
+    barrier_p.synchronize(id);
   }
   //Log().debug("Thread "+utos(id)+" finished its job.");
   barrier_.disconsider(id);
+  barrier_p.disconsider(id);
 }
 
 void* MultiPathSeeker::seeking_thread (void *args) {
