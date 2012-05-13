@@ -18,15 +18,13 @@ void Thread::run (void *arg) {
   }
 }
 
-void* Thread::join () {
+void Thread::join () {
   if (!running_) {
     Log().warning("Attempt to join inactive thread.");
-    return NULL;
+    return;
   }
-  void *ret = NULL;
-  if (pthread_join(thread_, &ret))
+  if (pthread_join(thread_, NULL))
     Log().warning("Something bad happed.");
-  return ret;
 }
 
 long Thread::number_of_processors () {

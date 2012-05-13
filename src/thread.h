@@ -13,7 +13,7 @@ class Thread {
       running_(false), routine_(routine) {}
     bool running () const { return running_; }
     void  run (void *arg);
-    void* join ();
+    void join ();
     static long number_of_processors ();
     static void exit();
   private:

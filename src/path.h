@@ -11,12 +11,11 @@ namespace ep2 {
 class Path {
   public:
     typedef std::vector<bool> VertexSet;
-
-    Path (size_t n) : link_(new Link(n)) {}
-
+    Path (size_t n) : link_(new_link(n)) {}
     Path operator+ (node vertex) const;
     bool has (node vertex) const;
     node last () const { return link_->last(); } 
+    size_t size () const { return link_->size(); }
     void dump () const;
     bool operator< (const Path& rhs) const {
       return link_->size() < rhs.link_->size();
@@ -25,6 +24,7 @@ class Path {
       return link_->size() <= rhs.link_->size();
     }
     operator std::string () const;
+    static void clearall ();
   private:
     class Link {
       public:
@@ -55,6 +55,9 @@ class Path {
     };
     Link *link_;
     explicit Path (Link *link) : link_(link) {}
+    static std::vector< Link* > allocated_;
+    static Link* new_link (size_t n);
+    static Link* new_link (const Link *parent, node last);
 };
 
 }

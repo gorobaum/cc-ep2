@@ -13,6 +13,7 @@ namespace ep2 {
 
 class PathSeeker {
   public:
+    virtual ~PathSeeker () {}
     virtual void seek () = 0;
     virtual void show_paths () const = 0;
     virtual unsigned steps () const = 0;

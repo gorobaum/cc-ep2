@@ -34,20 +34,13 @@ void MultiPathSeeker::seek () {
   for (size_t it = 0; it < np; it++) {
     threads_.push_back(Thread(seeking_thread));
     seekargs.push_back(SeekArgs(this, it));
-    //Log().debug("Created thread "+utos(it));
   }
   for (size_t it = 0; !pathqueue.empty(); it=(it+1)%np ) {
-    /*Log().debug(
-      "Path {"+string(pathqueue.front().first)+" + "+
-      utos(pathqueue.front().second)+"} do thread "+utos(it)+"."
-    );*/
     seekargs[it].initial_queue_.push(pathqueue.front());
     pathqueue.pop();
   }
-  for (size_t it = 0; it < np; it++) {
-    //Log().debug("Dispatching thread "+utos(it));
+  for (size_t it = 0; it < np; it++)
     threads_[it].run(static_cast<void*>(&seekargs[it]));
-  }
   for (size_t it = 0; it < np; it++)
     threads_[it].join();
 }
@@ -64,21 +57,17 @@ void MultiPathSeeker::do_seek (PathQueue& initial_queue, size_t id) {
     Log().debug(name+"is searching for a new path...");
     candidate path = initial_queue.front();
     initial_queue.pop();
-    //Log().debug(name+"New candidate: "+string(path.first)+" (+"+utos(path.second)+")");
     if (!path.first.has(path.second)) {
-      //Log().debug(name+"It should be a path.");
       Path minpath = path.first+path.second;
+      NodeInfo &info = nodeinfo_[path.second];
       bool success = false;
-      //if (!nodeinfo_[path.second].full()) {
-        //Log().debug(name+"Trying to add path: "+(string)minpath);
+      if (!info.full() || info.max() > minpath.size())
         success = nodeinfo_[path.second].addminpath(minpath);
-      //}
       if (success) {
         Log().debug(name+"found a new shortest path to node "+
                     utos(path.second));
         for (node i = 1; i < graph_->n(); i++)
           if (graph_->is_edge(path.second, i)) {
-            //Log().debug(name+"Queued +"+utos(i));
             initial_queue.push(candidate(minpath, i));
           }
       } else Log().debug(name+"did not find any paths.");

@@ -8,6 +8,7 @@
 #include "ep2.h"
 #include "thread.h"
 #include "graph.h"
+#include "path.h"
 #include "pathseeker.h"
 #include "simplepathseeker.h"
 #include "multipathseeker.h"
@@ -96,6 +97,7 @@ bool init (int argc, char** argv) {
   }
 
   graph = make_matrix_from_file(pFileIn);
+  fclose(pFileIn);
   
   return true;
 }
@@ -115,6 +117,7 @@ void run () {
 
 void exit () {
   delete graph;
+  Path::clearall();
   Thread::exit();
 }
 

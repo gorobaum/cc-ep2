@@ -7,9 +7,12 @@
 namespace ep2 {
 
 using std::string;
+using std::vector;
+
+vector<Path::Link*> Path::allocated_;
 
 Path Path::operator+ (node vertex) const {
-  return Path(new Link(link_, vertex));
+  return Path(new_link(link_, vertex));
 }
 
 bool Path::has (node vertex) const {
@@ -32,6 +35,25 @@ Path::operator string () const {
   pathstring = "(" + ep2::utos(link_->size()) + ") " + pathstring;
   return pathstring;
   //return pathstring + " " + link_->dump_set();
+}
+
+void Path::clearall () {
+  vector<Link*>::iterator it;
+  for (it = allocated_.begin(); it < allocated_.end(); it++)
+    delete *it;
+  allocated_.clear();
+}
+
+Path::Link* Path::new_link (size_t n) {
+  Link *link = new Link(n);
+  allocated_.push_back(link);
+  return link;
+}
+
+Path::Link* Path::new_link (const Link *parent, node last) {
+  Link *link = new Link(parent, last);
+  allocated_.push_back(link);
+  return link;
 }
 
 string Path::Link::dump_set () const {
