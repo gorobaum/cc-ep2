@@ -28,7 +28,7 @@ void Thread::join () {
 }
 
 long Thread::number_of_processors () {
-  return min(sysconf(_SC_NPROCESSORS_ONLN), 2l);
+  return max(sysconf(_SC_NPROCESSORS_ONLN), 2l);
 }
 
 void Thread::exit () {
