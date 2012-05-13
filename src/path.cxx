@@ -34,7 +34,6 @@ Path::operator string () const {
     pathstring = seps[!it->parent()] + utos(it->last()) + pathstring;
   pathstring = "(" + ep2::utos(link_->size()) + ") " + pathstring;
   return pathstring;
-  //return pathstring + " " + link_->dump_set();
 }
 
 void Path::clearall () {
