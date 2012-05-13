@@ -119,7 +119,7 @@ uso do programa encontram-se no arquivo LEIAME.
         de barreira de disseminação.
     \end{itemize}
 
-    \textit{Classes destinadas ao algoritmo:}
+    \textit{Classes destinadas à implementação algoritmo:}
     \begin{itemize}
       \item[\textbf{PathSeeker}:]
         Interface que todo buscador de caminhos deve implementar. É importante
@@ -134,8 +134,44 @@ uso do programa encontram-se no arquivo LEIAME.
     \end{itemize}
 
   \subsection{Alguns detalhes de implementação}
+    Como pode ser observado nas classes destinadas à implementação do algoritmo,
+    nosso programa tem suporte tanto à solução simples quanto à solução
+    paralelizada (segundo as ideias apresentadas na seção 2). No arquivo LEIAME
+    está explicado como escolher entre uma e outra na chamada do programa, mas
+    o padrão é sempre a solução concorrente.
+
+    Outro detalhe importante é que a classe Thread não tem um atributo
+    identificador em si, pois quem cuida de identificar as threads é a classe
+    MultiPathSeeker. Ou seja, na prática, a saída aparece como o enunciado
+    pedia.
+
+    Para fins de eliminar vazamento de memória, tivemos que fazer um vetor com
+    todos os caminho criados, para ao final do programa deletarmos todos da
+    memória.
 
   \subsection{Sobre a barreira simétrica usada}
+    Como já mencionado, optamos por uma barreira simétrica de disseminação. A
+    implementação exata do seu algoritmo encontra-se no método
+    \textbf{synchronize(id)} da classe \textbf{Barrier}.
+
+    \textbf{Sua declaração encontra-se no arquivo src/barrier.h, linha 17, e sua
+    implementação no arquivo src/barrier.cxx, linhas 36 a 44}.
+
+    Um detalhe meio bobo que difere nosso algoritmo do apresentado em aula é que
+    nosso contador de estágio (s) começa do 0 e não do 1. Logo, para calcular a
+    distância entre os pares que se sincronizam a cada estágio usamos $2^s$ ao
+    invés de $2^{s-1}$.
+
+    Outra informação relevante é que fizemos uma solução não muito usual para
+    lidar com a espera de threads já mortas na barreira (o que causava
+    \textit{deadlocks}). Fizemos o valor de arrive[id], com id sendo o
+    identificador da thread que já foi encerrada, receber o valor -1. Mas como
+    o tipo de arrive[i] é unsigned, isso dá underflow e assume o valor máximo
+    que esse tipo suporta. Sendo o valor máximo, nenhuma outra thread esperará
+    por essa que já não existe mais, mas a estrutura da barreira permanece a
+    mesma. Como pudemos supor em aula que os valores de arrive praticamente
+    nunca chegariam ao máximo do tipo int e similares, então essa solução não
+    deve causar problemas.
 
 \section{Resultados}
 
