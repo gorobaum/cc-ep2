@@ -109,7 +109,7 @@ void run () {
   else
     seeker = new MultiPathSeeker(graph, num_min_paths);
   seeker->seek();
-  Log().print("The programs has taken "+utos(seeker->steps())+" to terminate.");
+  Log().print("The program has taken "+utos(seeker->steps())+" to terminate.");
   Log().debug("===========Final Paths===========");
   seeker->show_paths();
   delete seeker;
