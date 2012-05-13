@@ -54,11 +54,8 @@ void MultiPathSeeker::seek () {
 
 void MultiPathSeeker::show_paths () const {
   vector<NodeInfo>::const_iterator it;
-  if (Log().debug_on() == false) Log().print("The program has take "
-      +utos(steps_-1)+" iterations to terminate.");
   for (it = nodeinfo_.begin()+1; it < nodeinfo_.end(); it++) 
     it->dump(it-nodeinfo_.begin());
-
 }
 
 static string from (size_t id) {
@@ -144,8 +141,8 @@ void MultiPathSeeker::NodeInfo::dump (node vertex) const {
   sort_heap(sorted.begin(), sorted.end());
   for (it = sorted.begin(); it < sorted.end(); it++) {
     it->dump();
-    Log().print();
   }
+  Log().print();
 }
 
 } // namespace ep2

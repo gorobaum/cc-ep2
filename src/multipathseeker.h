@@ -29,6 +29,7 @@ class MultiPathSeeker : public PathSeeker {
 
     void seek ();
     void show_paths () const;
+    unsigned steps () const { return steps_-1; }
 
   private:
     class NodeInfo {

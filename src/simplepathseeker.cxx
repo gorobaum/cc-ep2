@@ -29,6 +29,7 @@ void SimplePathSeeker::seek () {
         if (graph_->is_edge(path.second, i))
           pathqueue.push(candidate(minpath, i));
     }
+    steps_++;
   }
 }
 

@@ -15,6 +15,7 @@ class PathSeeker {
   public:
     virtual void seek () = 0;
     virtual void show_paths () const = 0;
+    virtual unsigned steps () const = 0;
 
   protected:
     Graph         *graph_;

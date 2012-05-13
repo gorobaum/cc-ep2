@@ -18,10 +18,12 @@ class SimplePathSeeker : public PathSeeker {
     
     explicit SimplePathSeeker (Graph *graph, size_t k) :
       PathSeeker(graph, k),
-      nodeinfo_(graph->n(), NodeInfo(k)) {}
+      nodeinfo_(graph->n(), NodeInfo(k)),
+      steps_(1) {}
 
     void seek ();
     void show_paths () const;
+    unsigned steps () const { return steps_-1; }
 
   private:
     struct NodeInfo {
@@ -39,7 +41,8 @@ class SimplePathSeeker : public PathSeeker {
         pathlist.push_back(minpath); minpaths++;
       }
     };
-    std::vector< NodeInfo >   nodeinfo_;
+    std::vector< NodeInfo > nodeinfo_;
+    unsigned                steps_;
 };
 
 }
