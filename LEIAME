@@ -15,6 +15,7 @@ I. Organização dos arquivos.
     |- objs.makefile
     |- deps.makefile
     |- CMakeLists.txt
+    |- alternative_build.sh
     |- LEIAME
     |- relatório.pdf
     |- src/
@@ -33,14 +34,14 @@ suficiente para compilar o EP com o comando:
 quais a biblioteca PTHREAD não está no lugar usual no sistema. Para isso,
 fizemos um CMake (www.cmake.org) que é capaz de encontrar a biblioteca PTHREAD
 no sistema e gerar um Makefile apropriado. Para usá-lo, basta ter o cmake (2.8+)
-instalado e rodar a seguinte sequência de comandos a partir da raiz do projeto:
+instalado e rodar o seguinte comando a partir da raiz do projeto:
 
-  $ mkdir build
-  $ cd build
-  $ cmake ..
-  $ make
+  $ ./alternative_build.sh
 
-  O executável do EP será compilado dentro da pasta build/.
+  Isso efetivamente cria uma parta build/ na raiz que conterá arquivos internos
+usados na compilação. Ela pode ser posteriormente removida sem problemas. Talvez
+seja necessário conferir permissão de execução ao script "alternative_build.sh".
+  Esperamos que não seja necessário usar essa alternativa.
 
 III. Ferramentas usadas.
 
@@ -61,25 +62,32 @@ IV. Modo de uso do programa.
   Legenda:
 
     [*]       Argumento opcional.
+
     <*>       Argumento obrigatório.
+
     -debug    Ativa modo de depuração, no qual várias mensagens contendo
               informações internas são exibidas durante a execução do programa.
               Isso inclui as mensagens exigidas pelo enunciado.
+
     -warning  Ativa o modo de alerta, no qual mensagens de alerta ou perigo são
               exibidas em situações extremas (como falha na criação das
               threads).
+
     -single   Ativa o modo single-threaded, no qual o algoritmo de busca dos n
               menores caminhos é feito usando apenas uma thread. Ler relatório
               para maiores informações sobre o porquê dessa opção.
+
     n         Número de caminhos mínimos a serem buscados por vértice.
+
     input     Caminho para o arquivo contendo a topologia do grafo.
+
 
 V. Implementação da barreira simétrica.
 
   O algoritmo da barreira simétrica usada no nosso EP se encontra no método
 Barrier::synchronize(id) da classe Barrier. Sua declaração está no arquivo
-src/barrier.h, linha ??, e sua implementação no arquivo src/barrier.cxx, linha
-??.
+src/barrier.h, linha 17, e sua implementação no arquivo src/barrier.cxx, linhas
+36 a 44.
   Maiores informações sobre a implmentação usada podem ser encontradas no
 relatório.
 

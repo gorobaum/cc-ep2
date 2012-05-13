@@ -24,6 +24,6 @@ add_executable (ep2
 )
 
 target_link_libraries (ep2 m ${CMAKE_THREAD_LIBS_INIT})
-set_target_properties (ep2 PROPERTIES COMPILE_FLAGS "-ansi -Wall -O0 -g")
+set_target_properties (ep2 PROPERTIES COMPILE_FLAGS "-ansi -Wall -O0")
 
 
