@@ -2,13 +2,13 @@
 TODO list:
   - CPUs com um processador => criar 2 threads mesmo assim. [OK]
   - Destacar a implementação da barreira, colocando o arquivo e as linha no LEIAME
-  - Verificar se as threads não estão passando a barreira antes da hora.
-  - Msgs de debug, a cada barreira:
-    - Número da iteração.
-    - Ordem em que as threads chegaram.
-    - As listas de caminhos atualizadas.
-  - Msg no final:
-      - Número de iterações.
+  - Verificar se as threads não estão passando a barreira antes da hora. [OK]
+  - Msgs de debug, a cada barreira: [OK]
+    - Número da iteração. [OK]
+    - Ordem em que as threads chegaram. [OK]
+    - As listas de caminhos atualizadas. [OK]
+  - Msg no final: [OK]
+      - Número de iterações. [OK]
   - Relatório (pdf):
     - Saída do programa para "teste-ep.txt" com k=2
     - Info sobre barreira.
