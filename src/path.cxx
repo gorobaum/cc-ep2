@@ -3,6 +3,7 @@
 
 #include "path.h"
 #include "log.h"
+#include "mutex.h"
 
 namespace ep2 {
 
@@ -10,6 +11,7 @@ using std::string;
 using std::vector;
 
 vector<Path::Link*> Path::allocated_;
+static Mutex        mutex; // for acessing the above vector.
 
 Path Path::operator+ (node vertex) const {
   return Path(new_link(link_, vertex));
@@ -45,12 +47,14 @@ void Path::clearall () {
 
 Path::Link* Path::new_link (size_t n) {
   Link *link = new Link(n);
+  Mutex::Lock lock(mutex);
   allocated_.push_back(link);
   return link;
 }
 
 Path::Link* Path::new_link (const Link *parent, node last) {
   Link *link = new Link(parent, last);
+  Mutex::Lock lock(mutex);
   allocated_.push_back(link);
   return link;
 }
