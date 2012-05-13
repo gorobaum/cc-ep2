@@ -27,9 +27,9 @@ void Barrier::push_new_thread (int id) {
 
 void Barrier::print_order () {
   ThreadOrder::iterator it;
-  
+  Log().debug("Order of arrival at the barrier:");
   for (it = threadorder_.begin(); it < threadorder_.end(); it++)
-    Log().debug("Thread "+utos((*it))+" arrived at the barrier.");
+    Log().debug(itos(it-threadorder_.begin()+1)+") Thread "+utos((*it)));
   threadorder_.clear();
 }
 
