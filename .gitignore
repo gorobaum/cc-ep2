@@ -8,3 +8,4 @@ perf.data*
 *.aux
 *.log
 *.toc
+*.out
